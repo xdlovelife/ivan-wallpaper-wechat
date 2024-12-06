@@ -11,12 +11,9 @@
 - 🌈 **多样化分类**：涵盖动漫、风景、人物等多个分类
 
 ## 📱 效果预览
-
-<p align="center">
-  <img src="docs/images/preview1.png" width="200" alt="首页预览">
-  <img src="docs/images/preview2.png" width="200" alt="分类预览">
-  <img src="docs/images/preview3.png" width="200" alt="详情预览">
-</p>
+<img width="280" alt="iShot_2024-12-06_21 44 12" src="https://github.com/user-attachments/assets/40dcca60-9b89-4450-9833-2008ab832623">  
+<img width="280" alt="iShot_2024-12-06_22 06 05" src="https://github.com/user-attachments/assets/7f6e6e6f-8500-4aa0-9141-7e5829c3c123">
+<img width="280" alt="iShot_2024-12-06_21 45 35" src="https://github.com/user-attachments/assets/20a055e9-fa96-42b4-aea7-6c244d5b7f7b">  
 
 ## 🛠️ 技术特点
 
@@ -30,18 +27,15 @@
 
 1. 克隆项目
 bash
-git clone https://github.com/your-username/qingningke-wxapp.git
+git clone https://github.com/15207126400/ivan-wallpaper-wechat.git  
 
-2. 安装依赖
-bash
-npm install
+2. 使用微信开发者工具打开项目
 
-
-3. 使用微信开发者工具打开项目
+3. 修改配置，全局替换项目中”您的域名“
 
 4. 编译运行
 
-## 🤝 参与贡献
+## 🤝 问题交流
 
 使用过程中遇到任何问题，您可以：
 
@@ -50,11 +44,8 @@ npm install
 - 📝 改进文档内容
 - 💻 提交代码优化
 
-## 💬 加入交流群
-
-<p align="center">
-  <img src="docs/images/wechat_group_qr.jpg" width="200" alt="微信交流群">
-</p>
+## 💬 加作者微信拉群
+<img width="220" alt="iShot_2024-12-06_21 45 35" src="https://github.com/user-attachments/assets/cbe9c2d2-3047-4927-9562-c3c4e5337da5">  
 
 🎯 **为什么要加入我们？**
 
@@ -74,14 +65,6 @@ npm install
 ## 📄 开源协议
 
 本项目基于 [MIT 协议](LICENSE) 开源，使用时请遵守开源协议。
-
-## ⭐ Star 历史
-
-<p align="center">
-  <a href="https://star-history.com/#your-username/qingningke-wxapp&Timeline">
-    <img src="https://api.star-history.com/svg?repos=your-username/qingningke-wxapp&type=Timeline" alt="Star History Chart">
-  </a>
-</p>
 
 ---
 
