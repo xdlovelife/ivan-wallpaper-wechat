@@ -1,0 +1,44 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">搜索</view>
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <!-- 搜索 -->
+  <view class="flex-row-between headers-search-box">
+    <view class="headers-search-item">
+      <image class="headers-search-img" src="您的域名/files/icon/search_icon.png"></image>
+      <input class="headers-search-text" type="text" value="{{searchValue}}" placeholder="请输入关键字" bindinput="onInput" bindconfirm="onSearchConfirm" maxlength="16"></input>
+      <image wx:if="{{searchValue.length > 0}}" class="headers-search-img" src="您的域名/files/icon/clear_icon.png" bindtap="clearSearchValue"></image>
+    </view>
+    <view class="headers-search-button" bindtap="onSearchTap">搜索</view>
+  </view>
+
+  <!-- 搜索历史标签 -->
+  <view wx:if="{{searchHistory.length > 0}}" class="search-history">
+    <view style="width: 95%;" class="flex-row-between">
+      <text class="history-title">搜索历史</text>
+      <image style="width:40rpx;height:40rpx;" src="您的域名/files/icon/delete_icon.png" bindtap="clearSearchHistory"></image>
+    </view>
+    <view class="history-tags">
+      <block wx:for="{{searchHistory}}" wx:key="index">
+        <view class="history-tag" bindtap="onTagTap" data-item="{{item}}">{{item}}</view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 猜你喜欢 -->
+  <view wx:if="{{searchTags.length > 0}}" class="search-history">
+    <text class="history-title">猜您喜欢</text>
+    <view class="history-tags">
+      <block wx:for="{{searchTags}}" wx:key="index">
+        <view class="history-tag" bindtap="onTagTap" data-item="{{item}}">{{item}}</view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 贴片广告 -->
+  <ad unit-id="adunit-623561441d6f79dd" style="position:absolute;bottom:40rpx;width:95%;" ad-type="video"></ad>
+</view>
+

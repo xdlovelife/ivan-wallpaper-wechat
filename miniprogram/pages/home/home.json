@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false,
+  "navigationBarTitleText": "推荐",
+  "usingComponents": {
+    "back-to-top": "../../components/back-to-top/back-to-top",
+    "bottom-loading": "../../components/bottom-loading/bottom-loading"
+  }
+}

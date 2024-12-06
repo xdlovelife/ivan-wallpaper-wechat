@@ -1,0 +1,35 @@
+/* 顶部 */
+.headers-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 220rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+  backdrop-filter: blur(5px);
+}
+.headers-title{
+  position: fixed;
+  top: 100rpx;
+  left: 50%;  /* 居中定位 */
+  transform: translateX(-50%);  /* 向左平移自身宽度的一半 */
+  font-size: 36rpx;
+  font-weight: 500;
+  z-index: 100;
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  /* transition: all 0.5s; */
+}
+.img{
+  margin-top: 280rpx;
+  width: 300rpx;
+  height:300rpx;
+  border-radius: 10rpx;
+}
+.content{
+  width: 65%;
+  margin-top: 80rpx;
+  color: #d2d2d2;
+  line-height: 50rpx;
+}

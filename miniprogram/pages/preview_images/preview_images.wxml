@@ -1,0 +1,138 @@
+<view class="preview-container">
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <!-- 缩略图下标 -->
+  <view class="index-box">预览图 {{currentIndex + 1}}/{{images.length}}</view>
+
+  <!-- 手机壁纸拟手机时钟 -->
+  <view wx:if="{{showTime}}" class="lock-screen">
+    <view class="time time-display">
+      {{currentTime}}
+    </view>
+    <view class="date time-display">
+      {{currentDate}}
+    </view>
+  </view>
+
+  <!-- 创意摄影拟华为Logo -->
+  <view wx:if="{{showHuaweiLogo}}" class="huawei-logo-box">
+    <view class="huawei-logo-icon"></view>
+    <view class="huawei-logo-title">HUAWEI</view>
+    <view class="huawei-logo-content">Mete 60 Pro</view>
+    <view style="font-size:20rpx;" class="huawei-logo-content">|</view>
+    <view class="huawei-logo-title">XMAGE</view>
+  </view>
+
+  <!-- 预览效果部分 -->
+  <swiper class="center-box" 
+    indicator-dots="{{indicatorDots}}" 
+    autoplay="{{autoplay}}" 
+    circular="true"
+    current="{{currentIndex}}" 
+    bindchange="bindchange">
+    <swiper-item style="height: 100vh;" wx:for="{{images}}" wx:key="index">
+
+      <!-- 加载loading组件 -->
+      <base-loading loaded="{{!item.loaded}}"></base-loading>
+
+      <!-- 显示的图片 -->
+      <image wx:if="item.loaded" 
+        src="{{item.previewFilePath}}" 
+        class="preview-image" 
+        mode="{{item.modeType}}" 
+        lazy-load="true"
+        data-index="{{index}}"
+        data-item="{{item}}"
+        bindload="onImageLoad"
+        binderror="onImageError"
+        bindtap="changeShow">
+      </image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 底部按钮区域 -->
+  <view class="bottom-bar bottom-bar-animation {{animationClass}}">
+    <!-- 收藏 -->
+    <view class="bottom-box" bindtap="onFavorite">
+      <image wx:if="{{isCollect}}" class="bottom-item" src="您的域名/files/icon/collect_selected_icon.png"></image>
+      <image wx:else class="bottom-item" src="您的域名/files/icon/collect_icon.png"></image>
+    </view>
+    <!-- 下载 -->
+    <view class="button-border-cancas" bindtap="onDownload">
+      <image class="bottom-download" src="您的域名/files/icon/download_icon.png"></image>
+    </view>
+    <!-- 分享 -->
+    <button class="bottom-box" open-type="share" bindtap="onShare">
+        <image class="bottom-item" src="您的域名/files/icon/share_icon.png"></image>
+    </button>
+  </view>
+
+  <!-- 下载框 -->
+  <view wx:if="{{isDownloadShow}}" class="mask-box" bindtap="closeDownloadBox">
+    <!-- <view style="width:100%;" class="flex-row-between">
+      <view>前往获取</view>
+      <view>可用青豆: {{userInfo.points}}</view>
+    </view> -->
+    <view class="download-box">
+      <view class="thumbnail-download flex-row-between">
+        <view class="flex-column-start">
+          <text class="download-title">缩略图下载</text>
+          <text class="download-content">经过压缩的1080P品质</text>
+        </view>
+        <view class="thumbnail-download-btn-box flex-column-center" bindtap="onThumbnailDownload">
+          <text style="font-size: 24rpx;">直接下载</text>
+        </view>
+      </view>
+      <view class="preview-download">
+        <view class="flex-column-start">
+          <text class="download-title">超清原图下载</text>
+          <view class="download-content">
+            通过获取
+            <text style="color: #1a710a;font-size: 24rpx;font-weight: bold;">青豆</text>
+            下载原图壁纸
+          </view>
+          <view class="download-content">高品质原图资源较大，下载中请耐心等待</view>
+        </view>
+        <view wx:if="{{userInfo.points > 0}}" class="preview-download-btn-box flex-center" bindtap="onPreviewDownload">
+          <text style="font-size: 24rpx;">原图下载</text>
+          <view>
+            <image style="width:25rpx;height:25rpx;" src="../../images/bean_icon.png"></image>
+            <text style="margin-left:8rpx;font-size:34rpx;color:#1a710a;">{{userInfo.points}}</text>
+          </view>
+        </view>
+        <view wx:else style="background: #ea0000;" class="preview-download-btn-box flex-center" bindtap="goMine">
+          <text style="font-size: 24rpx;color:#d6d6d6">前往获取</text>
+        </view>
+      </view>
+      <view class="download-bottom-box">存储与传输均产生成本，不得不加入广告回血，恳请理解。</view>
+    </view>
+  </view>
+
+  <!-- 图片信息盒子 -->
+  <view class="image-info-box">
+    <view style="margin-top: 20rpx;" class="image-info-item-box">
+      <view class="info-item">
+        <image class="info-item-img" src="您的域名/files/icon/type_icon.png" />
+        <text>{{currentImage.type}}</text>
+      </view>
+      <view class="info-item">
+        <image class="info-item-img" src="您的域名/files/icon/dimensions_icon.png" />
+        <text>{{currentImage.dimensions}}</text>
+      </view>
+    </view>
+    <view class="image-info-item-box">
+      <view class="info-item">
+        <image class="info-item-img" src="您的域名/files/icon/source_icon.png" />
+        <text>来自{{currentImage.source}}</text>
+      </view>
+      <view class="info-item">
+        <image class="info-item-img" src="您的域名/files/icon/time_icon.png" />
+        <text>{{currentImage.createTime}}</text>
+      </view>
+    </view>
+    <!-- 贴片广告 -->
+    <ad unit-id="adunit-623561441d6f79dd" style="width: 95%;margin-top: 20rpx;" ad-type="video"></ad>
+  </view>
+
+</view>

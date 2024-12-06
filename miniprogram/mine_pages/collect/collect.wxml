@@ -1,0 +1,50 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">收藏</view>
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <!-- 加载loading组件 -->
+  <base-loading loaded="{{isLoading}}"></base-loading>
+
+  <!-- 没有数据组件 -->
+  <view wx:if="{{!isLoading && items.length === 0}}">
+    <no-data nodataValue="{{nodataValue}}"></no-data>
+  </view>
+
+  <!-- 时间轴列表 -->
+  <view class="images-box">
+    <block wx:for="{{items}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+      <!-- 左侧时间轴 -->
+      <view class="images-point">
+        <view class="dot">{{index+1}}</view>
+        <view class="title">{{item.date}}</view>
+      </view>
+      <!-- 右侧图片 -->
+      <view class="box-line">
+        <scroll-view scroll-x class="scroll-box">
+          <view class="scroll-item" wx:for="{{item.serviceAccountActionVOList}}" wx:for-index="index2" wx:for-item="child" wx:key="index2">
+            <view class="image-container">
+              <image 
+                class="scroll-item-image" 
+                src="{{child.thumbnailFilePath}}" 
+                mode="aspectFill" 
+                lazy-load="true"
+                data-index="{{index2}}" 
+                data-images="{{item.serviceAccountActionVOList}}" 
+                bindtap="previewImageHandler"/>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </block>
+
+    <bottom-loading isLoading="{{isLoading}}" noMoreData="{{noMoreData}}"></bottom-loading>
+  </view>
+
+  
+  <!-- 回到顶部组件 -->
+  <back-to-top id="backToTop" showBackToTopClass='slide-out' showBackToTop="{{false}}"></back-to-top>
+</view>
+

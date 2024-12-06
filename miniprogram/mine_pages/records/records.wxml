@@ -1,0 +1,33 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">积分明细</view>
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <view class="center-box">
+    <vie style="width: 8rpx;background: #fffa00;"></vie>
+    <view style="margin-left: 10rpx;font-size: 32rpx;font-weight: bold;">积分明细</view>
+  </view>
+
+  <view class="container">
+    <view class="record-list">
+      <block wx:for="{{records}}" wx:key="index">
+        <view class="record-item">
+          <view class="flex-row-between">
+            <text class="record-content">{{item.content}}</text>
+            <text class="record-points" style="color: {{item.type === '1' ? 'rgb(7 189 21 / 90%)' : 'rgb(255 0 0 / 90%);'}};">
+              {{item.type === '1' ? '+' : '-'}}{{item.points}}
+            </text>
+          </view>
+          <view class="record-date">
+            {{item.createTime}}
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 底部加载组件 -->
+    <bottom-loading isLoading="{{isLoading}}" noMoreData="{{noMoreData}}"></bottom-loading>
+  </view>
+</view>

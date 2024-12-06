@@ -1,0 +1,38 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* 半透明背景 */
+  z-index: 999; /* 确保遮罩层在最上面 */
+}
+
+.loading-box{
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+}
+.loading-icon {
+  width: 100%;
+  height: 100%;
+  border: 5rpx solid #9e9e9e;
+  border-top-color: rgba(0, 0, 0, 0.2);
+  border-right-color: rgba(0, 0, 0, 0.2);
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-top-color: transparent;
+  border-radius: 100%;
+  animation: circle2 infinite 0.75s linear;
+}
+@keyframes circle2 {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

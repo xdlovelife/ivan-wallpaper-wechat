@@ -1,0 +1,46 @@
+<view class="flex-center">
+  <!-- 顶部 --> 
+  <view class="headers-top"></view>
+  <view class="headers-title">下载</view>
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <!-- 加载loading组件 -->
+  <base-loading loaded="{{isLoading}}"></base-loading>
+
+  <!-- 没有数据组件 -->
+  <view wx:if="{{!isLoading && items.length === 0}}">
+    <no-data nodataValue="{{nodataValue}}"></no-data>
+  </view>
+
+  <!-- 列表 -->
+  <scroll-view scroll-y wx:else type="custom" class="waterfall-lazy">
+    <grid-view type="masonry" cross-axis-count="2" main-axis-gap="10" cross-axis-gap="10">
+      <view wx:for="{{items}}" wx:key="id">
+        <image 
+          class="waterfall-image" 
+          src="{{item.thumbnailFilePath}}" 
+          bindtap="previewImageHandler" 
+          data-index="{{index}}" 
+          data-images="{{items}}" 
+          mode="widthFix">
+          <view class="waterfall-image-top-item-box">
+            <text class="waterfall-image-top-item-text">{{item.clarity}}</text>
+          </view>
+        </image>
+
+        <!-- 图片下方的标签 -->
+        <view class="waterfall-tags-box">
+          <view class="waterfall-tags">{{item.tags}}</view>
+        </view>
+      </view>
+    </grid-view>
+
+    <!-- 底部加载组件 -->
+    <bottom-loading isLoading="{{isLoading}}" noMoreData="{{noMoreData}}"></bottom-loading>
+  </scroll-view>
+  
+  <!-- 回到顶部组件 -->
+  <back-to-top id="backToTop" showBackToTopClass='slide-out' showBackToTop="{{false}}"></back-to-top>
+</view>
+

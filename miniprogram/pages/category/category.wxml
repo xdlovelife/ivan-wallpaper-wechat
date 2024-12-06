@@ -1,0 +1,57 @@
+<!-- pages/home/index.wxml -->
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">分类</view>
+
+  <!-- 搜索 -->
+  <!-- <view class="flex-row-between headers-search-box" bindtap="search">
+    <view class="headers-search-item">
+      <image class="headers-search-img" src="您的域名/files/icon/search_icon.png"></image>
+      <input class="headers-search-text" type="text" value="{{searchValue}}" placeholder="请输入关键字" bindinput="onInput" bindconfirm="onSearchConfirm" maxlength="16" disabled></input>
+      <image wx:if="{{searchValue.length > 0}}" class="headers-search-img" src="您的域名/files/icon/clear_icon.png" bindtap="clearSearchValue"></image>
+    </view>
+    <view class="headers-search-button" bindtap="onSearchTap">搜索</view>
+  </view> -->
+
+  <!-- 内容部分 -->
+  <scroll-view class="category-container" style="box-sizing:border-box;">
+    <!-- 分类  -->
+    <grid-view style="width:100%;" class="category-grid" type="masonry" cross-axis-count="2" grid-gap="50" main-axis-gap="10" cross-axis-gap="10">
+      <view style="background-image: url({{item.background}});" class="category-item" wx:for="{{categories}}" wx:key="value" 
+      bindtap="fetchTypeRequest" data-type="{{item.value}}">
+      <!-- <view style="background: {{item.background}}" class="category-item" wx:for="{{categories}}" wx:key="value" 
+      bindtap="fetchTypeRequest" data-type="{{item.value}}"> -->
+        <text class="category-text">{{item.value}}</text>
+        <text class="category-english">{{item.englishName}}</text>
+      </view>
+    </grid-view>
+
+    <!-- 颜色 -->
+    <view class="category-title">颜色分类</view>
+    <view class="color-box">
+      <grid-view class="category-grid" type="masonry" cross-axis-count="3" grid-gap="50" main-axis-gap="5" cross-axis-gap="5">
+        <view class="color-item" wx:for="{{colors}}" wx:key="index">
+          <view class="color-item-box flex-center">
+            <view wx:for="{{item}}" wx:key="color" style="background: {{item.color}};" class="color-img"
+            bindtap="fetchColorRequest" data-color="{{item.value}}"></view>
+          </view>
+        </view>
+      </grid-view>
+      <view class="colorful-box" bindtap="fetchColorRequest" data-color="彩">
+        <view class="colorful-item"></view>
+      </view>
+    </view>
+
+    <!-- 标签栏 -->
+    <view class="category-title">热门专题</view>
+    <grid-view style="margin-bottom:20rpx;" type="masonry" cross-axis-count="2" grid-gap="50" main-axis-gap="15" cross-axis-gap="10">
+      <view style="background-image: url({{item.background}});" class="tags-item" wx:for="{{tags}}" wx:key="value"
+      bindtap="fetchTagRequest" data-tag="{{item.value}}">
+        <view class="tags-text-box">
+          <text class="tags-text">{{item.name}}</text>
+        </view>
+      </view>
+    </grid-view>
+  </scroll-view>
+</view>

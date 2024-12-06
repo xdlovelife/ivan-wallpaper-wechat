@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "back-arrow": "../../components/back-arrow/back-arrow",
+    "bottom-loading": "../../components/bottom-loading/bottom-loading"
+  }
+}

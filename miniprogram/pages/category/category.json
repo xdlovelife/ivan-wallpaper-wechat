@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "back-to-top": "../../components/back-to-top/back-to-top"
+  }
+}

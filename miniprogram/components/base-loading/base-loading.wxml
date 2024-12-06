@@ -1,0 +1,7 @@
+<!-- 遮罩层 -->
+<!-- <view class="overlay" wx:if="{{loaded}}"></view> -->
+
+<!-- 加载动画 -->
+<view wx:if="{{loaded}}" class="loading-box">
+  <view class="loading-icon"></view>
+</view>

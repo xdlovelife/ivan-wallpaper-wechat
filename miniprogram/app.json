@@ -1,0 +1,65 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/category/category",
+    "pages/mine/mine",
+    "pages/preview_images/preview_images"
+  ],
+  "subpackages": [
+    {
+      "root": "search_pages",
+      "name": "search_pages",
+      "pages": [
+        "search/search",
+        "images/images"
+      ]
+    },
+    {
+      "root": "mine_pages",
+      "name": "mine_pages",
+      "pages": [
+        "collect/collect",
+        "records/records",
+        "common_problems/common_problems",
+        "about/about",
+        "privacy/privacy",
+        "statement/statement",
+        "link_remake/link_remake",
+        "introduce/introduce"
+      ]
+    }
+  ],
+  "lazyCodeLoading": "requiredComponents",
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#111010",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#111010"
+  },
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#00B26A",
+    "borderStyle": "black",
+    "backgroundColor": "#111010",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "推荐",
+        "iconPath": "images/home/home_icon.png",
+        "selectedIconPath": "images/home/home_selected_icon.png"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "分类",
+        "iconPath": "images/category/category_icon.png",
+        "selectedIconPath": "images/category/category_selected_icon.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/mine/mine_icon.png",
+        "selectedIconPath": "images/mine/mine_selected_icon.png"
+      }
+    ]
+  }
+}

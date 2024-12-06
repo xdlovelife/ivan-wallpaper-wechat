@@ -1,0 +1,95 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top {{showTopTitle ? 'show' : 'hide'}}"></view>
+  <view class="headers-title {{showTopTitle ? 'show' : 'hide'}}">排行榜</view>
+
+  <!-- 头部 -->
+  <view class='container-box'>
+    <view class="bottom-box">
+      一 排行榜仅展示前十 · 快去助力喜欢的壁纸上榜吧 一
+    </view>
+
+    <!-- 加载loading组件 -->
+    <base-loading loaded="{{!loaded}}"></base-loading>
+
+    <!-- tab点击栏 -->
+    <view class="container-head flex-row">
+      <scroll-view scroll-x class="container-head-sc">
+        <view class="item {{currentTab == index ? 'active' : ''}}" 
+              data-current="{{index}}" 
+              catchtap="handleTabChange" 
+              wx:for="{{tabList}}" 
+              wx:key="list">
+          {{item.name}}
+        </view>
+      </scroll-view>
+    </view>
+  
+    <!-- 图片分页 -->
+    <swiper current="{{currentTab}}" 
+        bindchange="handleSwiperChange" 
+        class="swiper-box" 
+        easing-function="ease-in-out"
+        duration="500"
+        autoplay="{{autoplay}}" 
+        circular="true"
+      >
+      <swiper-item wx:for="{{images}}" wx:key="*this">
+        <!-- 没有数据组件 -->
+        <view wx:if="{{item.length === 0}}" class="no-data-text">
+          <text>暂无上榜壁纸</text>
+        </view>
+
+        <scroll-view wx:else enable-flex="true" scroll-y type="custom" class="waterfall-lazy flex-center">
+          <grid-view style="height:100%;width:100%;" type="masonry" cross-axis-count="2" main-axis-gap="10" cross-axis-gap="10">
+            <view class="waterfall-image-box" wx:for="{{item}}" wx:key="wallpapersId">
+              <!-- 排行标识 -->
+              <view class="image-wrapper">
+                <view wx:if="{{index==0}}" class="rank-box">
+                  <image class="rank-image" src="您的域名/files/icon/1.png" />
+                  <view style="color:#EEEEEE" class="rank-text">{{index+1}}</view>
+                </view>
+                <view wx:elif="{{index==1}}" class="rank-box">
+                  <image class="rank-image" src="您的域名/files/icon/2.png" />
+                  <view style="color:#2b2525" class="rank-text">{{index+1}}</view>
+                </view>
+                <view wx:elif="{{index==2}}" class="rank-box">
+                  <image class="rank-image" src="您的域名/files/icon/3.png" />
+                  <view style="color:#EEEEEE" class="rank-text">{{index+1}}</view>
+                </view>
+                <!-- <view wx:else class="rank-box">
+                  <image class="rank-image" src="您的域名/files/icon/more.png" />
+                  <view style="color:#EEEEEE" class="rank-text">{{index+1}}</view>
+                </view> -->
+                <!-- 图片  -->
+                <image
+                  class="waterfall-image" 
+                  src="{{item.thumbnailFilePath}}" 
+                  mode="widthFix" 
+                  data-index="{{index}}" 
+                  data-images="{{images[currentTab]}}" 
+                  lazy-load="true"
+                  bindtap="previewImageHandler"/>
+                <!-- 下载信息 -->
+                <view class="waterfall-image-bottom-box">
+                  <view wx:for="{{item.avatarList}}" wx:key="index" class="rank-avrtar-box"> 
+                    <image class="rank-avrtar" src="{{item}}" mode="aspectFill" style="left: {{index * 28}}rpx; z-index: {{100 - index}};"/>
+                  </view>
+                  <view class="rank-download-box">
+                    <view class="rank-download">{{item.downloading}}</view>
+                    <view>下载</view>
+                  </view>
+                </view>
+              </view>
+              
+              <!-- 图片下方的标签 -->
+              <view class="waterfall-tags-box">
+                <view class="waterfall-tags">{{item.tags}}</view>
+              </view>
+            </view>
+          </grid-view>
+        </scroll-view>
+      </swiper-item>
+    </swiper>
+  </view>
+</view>

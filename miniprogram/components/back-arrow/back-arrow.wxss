@@ -1,0 +1,23 @@
+.back-arrow {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 100rpx;
+  left: 20rpx;
+  padding: 0rpx 20rpx;
+  z-index: 100;
+  background: rgb(7 189 21 / 90%);
+  border-radius: 40rpx;
+  width: 140rpx;
+  height: 65rpx;
+}
+.home-image {
+  max-width: 50rpx;
+  max-height: 50rpx;
+}
+.back-image {
+  max-width: 45rpx;
+  max-height: 45rpx;
+}

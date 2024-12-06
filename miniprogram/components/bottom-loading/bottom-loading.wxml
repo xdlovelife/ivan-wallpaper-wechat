@@ -1,0 +1,12 @@
+<!-- 底部加载栏 -->
+<view class="loading-spinner">
+  <view wx:if="{{isLoading}}" class="loading-box">
+    · 
+    <image class="loading-img" src="../../images/loading_icon.gif" />
+    <view style="margin-right: 10rpx;">正在加载</view>
+    · 
+  </view>
+  <view wx:if="{{noMoreData}}" class="loading-box">
+    · <view style="margin-right: 10rpx;margin-left: 10rpx;">已加载全部</view> ·
+  </view>
+</view>

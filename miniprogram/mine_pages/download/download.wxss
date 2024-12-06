@@ -1,0 +1,71 @@
+/* 顶部 */
+.headers-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 220rpx;
+  background-color: #1d2021cc;
+  z-index: 99;
+  backdrop-filter: blur(5px);
+}
+.headers-title{
+  position: fixed;
+  top: 100rpx;
+  left: 50%;  /* 居中定位 */
+  transform: translateX(-50%);  /* 向左平移自身宽度的一半 */
+  font-size: 36rpx;
+  font-weight: 500;
+  z-index: 100;
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  /* transition: all 0.5s; */
+}
+
+/* 列表 */
+.waterfall-lazy {
+  position: relative;
+  top: 240rpx;
+  height: 100%;
+  width: 95%;
+  overflow-y: auto;
+  padding-bottom: 100rpx;
+  box-sizing:border-box;
+}
+.waterfall-image {
+  width: 100%;
+  border-radius: 20rpx;
+  /* max-height: 400rpx; */
+  border: 1rpx solid #3e3b3b;
+}
+.waterfall-image-top-item-box{
+  position: absolute;
+  top: 15rpx;
+  right: 15rpx;
+  width: 20rpx;
+  height: 20rpx;
+  background: rgba(0, 0, 0, 0.5);
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 10rpx 30rpx;
+  display: flex;
+  align-items: center;
+}
+.waterfall-image-top-item-text{
+  font-size: 24rpx;
+}
+
+/* 底部标签栏 */
+.waterfall-tags-box {
+  line-height: 40rpx;
+  margin: 10rpx;
+  color: #FFFFFF;
+  font-size: 24rpx;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.waterfall-tags{
+  word-wrap: break-word;
+  white-space: normal;
+}

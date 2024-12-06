@@ -1,0 +1,61 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">图库</view>
+
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+  
+  <!-- 搜索 -->
+  <!-- <view class="flex-row-between headers-search-box">
+    <view class="headers-search-item">
+      <image class="headers-search-img" src="您的域名/files/icon/search_icon.png"></image>
+      <input class="headers-search-text" type="text" value="{{searchValue}}" placeholder="请输入关键字" bindinput="onInput"  maxlength="16"></input>
+      <image wx:if="{{searchValue.length > 0}}" class="headers-search-img" src="您的域名/files/icon/clear_icon.png" bindtap="clearSearchValue"></image>
+    </view>
+    <view class="headers-search-button" bindtap="onSearchTap">搜索</view>
+  </view> -->
+
+  <!-- 没有数据组件 -->
+  <view wx:if="{{!isLoading && items.length == 0}}">
+    <no-data nodataValue="{{searchValue}}"></no-data>
+  </view>
+
+  <!-- 图片列表  -->
+  <scroll-view scroll-y wx:else type="custom" class="waterfall-lazy">
+    <grid-view type="masonry" cross-axis-count="{{imageConut}}" main-axis-gap="10" cross-axis-gap="10">
+      <view wx:for="{{items}}" wx:key="id">
+        <image 
+          class="waterfall-image" 
+          src="{{item.thumbnailFilePath}}" 
+          mode="aspectFill" 
+          lazy-load="true"
+          data-index="{{index}}" 
+          data-images="{{items}}" 
+          bindtap="previewImageHandler">
+        </image>
+
+        <!-- 分辨率 -->
+        <view class="waterfall-image-top-item-box">
+          <text class="waterfall-image-top-item-text">{{item.clarity}}</text>
+        </view>
+        <!-- 浏览量 -->
+        <view class="preview-num-box">
+          <image style="width:25rpx;height:25rpx;" src="您的域名/files/icon/preview_icon1.png"></image>
+          <view style="margin-left:8rpx;">{{item.traffic}}</view>
+        </view>
+
+        <!-- 图片下方的标签 -->
+        <view wx:if="{{tagShow}}" class="waterfall-tags-box">
+          <view class="waterfall-tags">{{item.tags}}</view>
+        </view>
+      </view>
+    </grid-view>
+
+    <!-- 底部加载组件 -->
+    <bottom-loading isLoading="{{isLoading}}" noMoreData="{{noMoreData}}"></bottom-loading>
+  </scroll-view>
+  
+  <!-- 回到顶部组件 -->
+  <back-to-top id="backToTop" showBackToTopClass='slide-out' showBackToTop="{{false}}"></back-to-top>
+</view>

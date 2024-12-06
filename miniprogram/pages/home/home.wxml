@@ -1,0 +1,168 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top {{showTopTitle ? 'show' : 'hide'}}"></view>
+  <view class="headers-top-image {{showTopImage ? 'show' : 'hide'}}"></view>
+  <view class="headers-title {{showTopTitle ? 'show' : 'hide'}}">青柠客壁纸</view>
+  <view class="headers-search {{showTopTitle ? 'show' : 'hide'}}" bindtap="search">
+    <image class="headers-search-img" src="您的域名/files/icon/search_icon.png"></image>
+    <view class="headers-search-text">找图</view>
+  </view>
+
+  <!-- 引导栏 -->
+  <view wx:if="{{leadShow}}" class="flex-row-between lead-box">
+    <view class="r_box">添加至我的小程序，访问更快捷</view>
+    <view style="font-size: 32rpx;margin-left: 8rpx;color: #f1ebcc;width:5rpx;">|</view>
+    <view style="font-size: 24rpx;color: #f1ebcc">{{countdown}}秒后关闭</view>
+    <!-- <image style="width: 44rpx;height: 44rpx;" src="您的域名/files/icon/top_close_icon.png" bindtap="closeLead"></image> -->
+  </view>
+
+  <!-- 加载loading组件 -->
+  <base-loading loaded="{{isLoading}}"></base-loading>
+
+  <!-- 横向滑动栏:推荐 -->
+  <view style="margin-top:250rpx" class="center-box">
+    <view class="center-title-box">
+      <view class="center-title-left-box">
+        <view class="center-title-item-name">官方推荐</view>
+        <view class="center-title-item-remake">热门Wallpaper 每张都是辣么酷炫</view>
+      </view>
+      <view class="center-title-right-box" bindtap="goImagesForFlag">更多</view>
+    </view>
+    
+    <scroll-view scroll-x enable-flex class="scroll-box">
+      <view class="scroll-item" wx:for="{{phoneImages}}" wx:key="index">
+        <view class="image-container">
+          <image 
+            class="scroll-item-image" 
+            src="{{item.thumbnailFilePath}}" 
+            mode="aspectFill" 
+            lazy-load="true"
+            data-index="{{index}}" 
+            data-images="{{phoneImages}}" 
+            bindtap="previewImageHandler"/>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 顶部轮播图:电脑平板 -->
+  <view class="center-box">
+    <view class="center-title-box">
+      <view class="center-title-left-box">
+        <view class="center-title-item-name">电脑平板</view>
+        <view class="center-title-item-remake">刷新视界 点亮每一寸屏幕</view>
+      </view>
+      <view class="center-title-right-box" data-type="电脑平板" bindtap="goImages">更多</view>
+    </view>
+
+    <swiper 
+      class="swiper-box"
+      autoplay="{{autoplay}}"
+      circular="true"
+      interval="3000"
+      duration="500"
+      current="{{currentIndex}}"
+      bindchange="onSwiperChange"
+      previous-margin="10rpx"
+      next-margin="10rpx">
+      <block wx:for="{{swiperImages}}" wx:key="wallpapersId">
+        <swiper-item class="swiper-item">
+          <image 
+            class="swiper-image {{currentIndex === index ? 'active' : ''}}"
+            src="{{item.thumbnailFilePath}}" 
+            mode="aspectFill" 
+            lazy-load="true"
+            data-index="{{index}}" 
+            data-images="{{swiperImages}}" 
+            bindtap="previewImageHandler"/>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+
+  <!-- 横向滑动栏:趣味头像 -->
+  <view class="center-box">
+    <view class="center-title-box">
+      <view class="center-title-left-box">
+        <view class="center-title-item-name">趣味头像</view>
+        <view class="center-title-item-remake">萌您一脸 每天心境都不一样</view>
+      </view>
+      <view class="center-title-right-box" data-type="头像" bindtap="goImages">更多</view>
+    </view>
+    
+    <scroll-view scroll-x enable-flex class="scroll-box">
+      <view style="height: 250rpx;" class="scroll-item" wx:for="{{scrollAvatars}}" wx:key="index">
+        <image 
+          class="scroll-item-image" 
+          src="{{item.thumbnailFilePath}}" 
+          mode="aspectFill" 
+          lazy-load="true"
+          data-index="{{index}}" 
+          data-images="{{scrollAvatars}}" 
+          bindtap="previewImageHandler"/>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 推荐 -->
+  <view class="center-box">
+    <view class="center-title-box">
+      <view class="center-title-left-box">
+        <view class="center-title-item-name">近期更新</view>
+        <view class="center-title-item-remake">焕然一新 最新精选手机壁纸</view>
+      </view>
+      <!-- <view class="center-title-right-box" data-type="手机壁纸" bindtap="goImages">更多</view> -->
+    </view>
+
+    <!-- 没有数据组件 -->
+    <view wx:if="{{!isLoading && pageImages.length === 0}}">
+      <no-data nodataValue="{{nodataValue}}"></no-data>
+    </view>
+  
+    <!-- 图片分页 -->
+    <scroll-view enable-flex="true" scroll-y wx:else type="custom" class="waterfall-lazy">
+      <grid-view style="margin-bottom: 100rpx;" type="masonry" cross-axis-count="3" main-axis-gap="10" cross-axis-gap="10">
+        <view class="waterfall-image-box flex-center" wx:for="{{pageImages}}" wx:key="index">
+          <view class="image-wrapper">
+            <image
+              class="waterfall-image" 
+              src="{{item.thumbnailFilePath}}" 
+              mode="aspectFill" 
+              lazy-load="true"
+              data-index="{{index}}" 
+              data-images="{{pageImages}}" 
+              bindtap="previewImageHandler"/>
+            <!-- 图片上的遮罩层 -->
+            <!-- <view wx:if="{{showImageBottom}}" class="waterfall-image-bottom-box">
+              <view class="waterfall-image-bottom-item-box">
+                <image class="waterfall-image-bottom-item-img" src="您的域名/files/icon/image_download_icon.png"></image>
+                <view>{{item.downloading}} 下载</view>
+              </view>
+              <view style="color:#949b9c;">|</view>
+              <view class="waterfall-image-bottom-item-box">
+                <image class="waterfall-image-bottom-item-img" src="您的域名/files/icon/image_collect_icon.png"></image>
+                <view>{{item.bookmark}} 收藏</view>
+              </view>
+            </view> -->
+            <!-- <view class="preview-num-box">
+              <image style="width: 25rpx;height:25rpx;" src="../../images/preview/preview_icon1.png"></image>
+              <view style="margin-left:5rpx;">{{item.traffic}}</view>
+            </view> -->
+          </view>
+          
+          <!-- 图片下方的标签 -->
+          <!-- <view class="waterfall-tags-box">
+            <view class="waterfall-tags">{{item.tags}}</view>
+          </view> -->
+        </view>
+      </grid-view>
+
+      <!-- 底部加载组件 -->
+      <bottom-loading isLoading="{{isLoading}}" noMoreData="{{noMoreData}}"></bottom-loading>
+    </scroll-view>
+  </view>
+  
+  
+  <!-- 回到顶部组件 -->
+  <back-to-top id="backToTop" showBackToTopClass='slide-out' showBackToTop="{{false}}"></back-to-top>
+</view>

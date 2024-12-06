@@ -1,0 +1,43 @@
+/* 回到顶部 */
+.back-to-top {
+  position: fixed;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 75rpx;
+  height: 75rpx;
+  bottom: 120rpx;
+  right: 50rpx;
+  background-color: rgb(0 0 0 / 50%);
+  border-radius: 50%;
+  z-index: 999;
+  transform: translateX(100%);
+}
+.back-to-top-img{
+  width: 50rpx;
+  height: 50rpx;
+}
+.slide-in {
+  animation: slideIn 0.5s forwards; /* 控制按钮滑入 */
+}
+.slide-out {
+  animation: slideOut 0.5s forwards; /* 控制按钮滑出 */
+}
+/* 动画定义 */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

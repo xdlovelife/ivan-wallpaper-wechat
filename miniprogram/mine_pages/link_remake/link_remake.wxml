@@ -1,0 +1,22 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">关联</view>
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <!-- 图片 -->
+  <image class="img" src="您的域名/files/icon/link_remake_icon.png"></image>
+
+  <!-- 说明 -->
+  <view class="content flex-column-start">
+    <view>我有小程序，你有微信公众号吗？如果有，就关联在一起吧！</view>
+    <view style="margin-top: 50rpx;">请您按照以下步骤关联：</view>
+    <view>①. 登录微信公众号</view>
+    <view>②. 点击"小程序管理"</view>
+    <view>③. 点击"关联小层序"</view>
+    <view>④. 输入"青柠客壁纸"点击搜索并选中</view>
+    <view>⑤. 点击"下一步"，关联成功</view>
+  </view>
+
+</view>

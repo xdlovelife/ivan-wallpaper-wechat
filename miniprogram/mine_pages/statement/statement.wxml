@@ -1,0 +1,36 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">免责声明</view>
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <!-- 内容 -->
+  <view class="container">
+    <view class="section">
+      <text class="subtitle">内容来源</text>
+      <text class="content">
+        本小程序中的壁纸图片部分来源于网络资源，我们致力于为用户提供优质的服务体验。
+        尽管我们尽力确保所使用的图片合法且符合版权要求，但由于信息来源的多样性，我们无法完全保证所有图片的版权状态。
+      </text>
+    </view>
+
+    <view class="section">
+      <text class="subtitle">版权问题</text>
+      <text class="content">
+        我们尊重每一位原创作者的版权和知识产权。
+        如果您认为本小程序中某些壁纸图片侵犯了您的版权或其他合法权益，请及时联系我们。
+        我们将对相关问题进行核查，并根据需要采取措施，例如删除相关图片或调整图片使用方式。
+      </text>
+    </view>
+
+    <view class="section">
+      <text class="subtitle">责任声明</text>
+      <text class="content">
+        本小程序提供的壁纸仅供用户个人欣赏和使用，我们不对因使用这些壁纸图片而产生的任何直接或间接损失或损害承担责任。
+        用户在下载和使用壁纸时，请确保遵守相关法律法规及版权要求。
+      </text>
+    </view>
+  </view>
+
+</view>

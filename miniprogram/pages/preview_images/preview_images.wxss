@@ -1,0 +1,320 @@
+.preview-container{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+}
+
+/* 加载原图laoding */
+.loading-box{
+  position: absolute;
+  z-index: 99;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+}
+.loading-icon {
+  width: 100%;
+  height: 100%;
+  border: 5rpx solid rgb(42 42 42 / 90%);
+  border-top-color: rgba(0, 0, 0, 0.2);
+  border-right-color: rgba(0, 0, 0, 0.2);
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-top-color: transparent;
+  border-radius: 100%;
+  animation: circle2 infinite 0.75s linear;
+}
+@keyframes circle2 {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 预览盒子 */
+.center-box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+}
+.index-box {
+  position: absolute;
+  z-index: 100;
+  color: #eeeeee;
+  font-size: 24rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 8%;
+  padding: 10rpx 20rpx;
+  background: rgba(0,0,0,0.2);
+  border-radius: 30rpx;
+}
+
+/* 模拟手机时间字体轮廓 */
+.time-display {
+  font-family: 'Roboto', 'SF Pro Display', 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 96rpx; /* 根据需要调整字体大小 */
+  font-weight: 300; /* 选择字体粗细，如300, 400, 700等 */
+  color: #ffffff; /* 字体颜色 */
+  text-align: center; /* 文字居中 */
+  letter-spacing: 2rpx; /* 字符间距 */
+  margin-top: 20rpx; /* 顶部间距 */
+  text-shadow: 4rpx 4rpx 8rpx rgba(0, 0, 0, 0.5); /* 字体阴影 */
+}
+/* 拟手机时钟 */
+.lock-screen {
+  position: absolute;
+  z-index: 2;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 300rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+.time {
+  font-size: 164rpx;
+  font-weight: bold;
+}
+.date {
+  font-size: 40rpx;
+}
+
+/* 拟华为logo */
+.huawei-logo-box {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  bottom: 3%;
+  left: 35rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
+  font-size: 25rpx;
+}
+.huawei-logo-icon {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  border: 8rpx solid rgb(235 241 237 / 70%);
+}
+.huawei-logo-title {
+  font-weight: bold;
+  padding: 10rpx;
+}
+.huawei-logo-content {
+  padding: 10rpx;
+}
+
+/* 预览图片 */
+.preview-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  margin: 0;
+  padding: 0;
+  /* transition: opacity 0.3s ease-in; */
+}
+.back-arrow {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 100rpx;
+  left: 40rpx;
+  width: 100rpx;
+  height: 70rpx;
+  z-index: 1;
+  background: rgba(0, 178, 106, 0.9);
+}
+.back-image {
+  max-width: 60rpx;
+  max-height: 60rpx;
+}
+
+/* 底部 */
+.bottom-bar {
+  position: fixed;
+  z-index: 1;
+  bottom: 100rpx;
+  width: 70%;
+  height: 130rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(36, 36, 36, 0.9);
+  border-radius: 100rpx;
+  padding: 0rpx 50rpx;
+  opacity: 1; /* 初始透明度为1，显示 */
+  transform: translateY(0); /* 初始位置无位移 */
+  transition: all 0.5s ease-in-out; /* 设置过渡效果 */
+}
+.bottom-bar-animation.show {
+  bottom: 100rpx; /* 显示时保持在屏幕内 */
+  opacity: 1; /* 显示时透明度为1 */
+  transform: translateY(0); /* 保持在原始位置 */
+}
+.bottom-bar-animation.hide {
+  bottom: -200rpx; /* 隐藏时，移出屏幕 */
+  opacity: 0; /* 隐藏时透明度为0 */
+  transform: translateY(100%); /* 移出屏幕 */
+}
+.bottom-box{
+  width: 120rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(36, 36, 36, 0.0);
+  margin: 0rpx;
+  padding: 0rpx;
+}
+.bottom-item {
+  width: 60rpx;
+  height: 60rpx;
+}
+.bottom-download {
+  width: 100rpx;
+  height: 90rpx;
+}
+/* 动画盒子 */
+.button-border-cancas {
+  position: relative;
+  top: -4rpx;
+  border-radius: 50%;
+  background-color: rgba(73, 73, 73, 0.9);
+  width: 150rpx;
+  height: 150rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 1s cubic-bezier(0.42, 0, 0.58, 1); 
+}
+
+/* 下载弹出框 */
+.mask-box{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.download-box{
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: 90%;
+  border-radius: 20rpx;
+  background: #bdb7b7;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.thumbnail-download{
+  width: 90%;
+  padding: 40rpx 0rpx;
+  border-bottom: 1rpx solid #949494;
+}
+.thumbnail-download-btn-box{
+  background: rgb(43, 41, 41);
+  padding: 20rpx 30rpx;
+  color: #eee;
+  font-size: 28rpx;
+  border-radius: 10rpx;
+}
+.preview-download{
+  display: flex;
+  flex-flow: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 90%;
+  padding: 40rpx 0rpx;
+  border-bottom: 1rpx solid #949494;
+}
+.preview-download-btn-box{
+  background: #FFC107;
+  padding: 20rpx 30rpx;
+  color: #000;
+  font-size: 28rpx;
+  border-radius: 10rpx;
+}
+.download-title{
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.download-content{
+  font-size: 22rpx;
+  margin-top: 10rpx;
+  color: #4b4c4b;
+  font-family: serif;
+}
+.download-bottom-box{
+  width: 90%;
+  font-size: 22rpx;
+  color: #4b4c4b;
+  padding: 20rpx 0rpx 30rpx 0rpx;
+  font-family: serif;
+}
+
+/* 图片信息盒子 */
+.image-info-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 900rpx;
+  background-color: #000000;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.image-info-item-box{
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 280rpx;
+  margin: 10rpx 0rpx;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  background: rgb(49 49 49 / 50%);
+  border-radius: 20rpx;
+  padding: 30rpx 20rpx;
+}
+.info-item-img{
+  width:30rpx;
+  height:30rpx;
+  margin-right:10rpx;
+}

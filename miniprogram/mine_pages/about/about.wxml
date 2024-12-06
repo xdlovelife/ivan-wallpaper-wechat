@@ -1,0 +1,48 @@
+<view class="flex-center">
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">关于我们</view>
+  <!-- 返回上一页 -->
+  <back-arrow></back-arrow>
+
+  <view class="container">
+    <image class="logo" mode="aspectFill" src="{{logo}}"></image>
+    <text class="title">青柠客壁纸</text>
+    <text class="version">{{content}}</text>
+    <text class="version">{{version}}</text>
+
+    <view class="flex-center menu-list">
+      <!-- 产品介绍 -->
+      <view class="flex-row-between menu-items" bindtap="openIntroduce">
+        <view class="menu-items-left">
+          <view class="menu-title">产品介绍</view>
+        </view>
+        <view class="menu-items-right">
+          <view class="menu-remake"></view>
+          <image class="menu-icon" src="{{arrows}}" />
+        </view>
+      </view>
+      <!-- 隐私协议 -->
+      <view class="flex-row-between menu-items" bindtap="openPrivacy">
+        <view class="menu-items-left">
+          <view class="menu-title">隐私协议</view>
+        </view>
+        <view class="menu-items-right">
+          <view class="menu-remake"></view>
+          <image class="menu-icon" src="{{arrows}}" />
+        </view>
+      </view>
+      <!-- 免责声明 -->
+      <view class="flex-row-between menu-items" bindtap="openStatement">
+        <view class="menu-items-left">
+          <view class="menu-title">免责声明</view>
+        </view>
+        <view class="menu-items-right">
+          <view class="menu-remake"></view>
+          <image class="menu-icon" src="{{arrows}}" />
+        </view>
+      </view>
+    </view>
+  </view>
+  
+</view>  

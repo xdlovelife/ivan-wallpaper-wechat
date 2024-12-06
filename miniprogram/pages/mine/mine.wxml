@@ -1,0 +1,191 @@
+<view class="container">
+  
+  <!-- 顶部 -->
+  <view class="headers-top"></view>
+  <view class="headers-title">我的</view>
+
+  <!-- 用户信息栏 -->
+  <view class="header">
+    <!-- 昵称头像栏 -->
+    <view class="userinfo-box">
+      <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{userInfo.avatar}}" mode="aspectFill"></image>
+      </button>
+      <view class="user-info">
+        <view style="display:flex;align-items:center;height:60rpx;">
+          <input type="nickname" class="name" bind:change="onInputChange" readonly value="{{userInfo.nickname}}"></input>
+        </view>
+        <view style="display:flex;align-items:center;height:60rpx;">
+          <view class="uid">UID: {{userInfo.id}}</view>
+          <view style="color:rgb(9 140 19 / 100%);width:100rpx;font-size:26rpx;margin-left:30rpx;" bindtap="copyUid">复制</view>
+        </view>
+      </view>
+    </view>
+    <!-- 积分栏 -->
+    <view class="points-box">
+      <view style="font-size:62rpx;font-weight:bold;color:green;">{{userInfo.points}}</view>
+      <view>剩余青豆</view>
+    </view>
+
+    <!-- 获取积分 -->
+    <view class="points-center-box">
+      <view class="flex-center points-center-item" data-operation="1" data-uid="{{userInfo.id}}" bindtap="onSignIn">
+        <view class="flex-center points-item-height">每日签到</view>
+        <view class="flex-center points-item-height">青豆+1/天</view>
+      </view>
+      <view class="flex-center points-center-item">
+        <button style="padding: 0;" class="flex-center points-center-btn-box" open-type="share">
+          <view class="flex-center points-item-height">分享好友</view>
+          <view class="flex-center points-item-height">青豆+2/天</view>
+        </button>
+      </view>
+      <view class="flex-center points-center-item" data-operation="3" data-uid="{{userInfo.id}}" bindtap="onMorePoints">
+        <view class="flex-center points-item-height">播放广告</view>
+        <view class="flex-center points-item-height">青豆+3/次</view>
+      </view>
+      <view class="flex-center points-center-item" bindtap="goRecords">
+        <view class="flex-center points-item-height">查看青豆</view>
+        <view class="flex-center points-item-height">使用明细</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 中间 -->
+  <!-- <view class="flex-row-between center-list">
+    <view style="width:40%;height:100rpx;" class="flex-column-between" bindtap="goCollect">
+      <view class="title">我的收藏</view>
+      <view class="data">{{collectSum}}</view>
+    </view>
+    <view style="color:rgb(7 189 21 / 90%);font-size:35rpx;font-weight:bold;"> | </view>
+    <view style="width:40%;height:100rpx" class="flex-column-between" bindtap="goDownload">
+      <view class="title">我的下载</view>
+      <view class="data">{{downloadSum}}</view>
+    </view>
+  </view> -->
+
+  <!-- 轮播通告 -->
+  <!-- <view wx:if="{{noticeShow}}" class='announcement"'>
+    <image style="width:44rpx;height:40rpx;margin-right:16rpx;" src="您的域名/files/icon/notice_icon.png"></image>
+    <view class='f-font24 s-32 announcement-context'>
+      <view animation="{{animationData}}" class="f-font24 s-32 announcement-text f-text-left">{{announcementText}}</view>
+    </view>
+    <image style="width:40rpx;height:40rpx;margin-left:25rpx;" src="您的域名/files/icon/close_icon.png" bindtap="closeNotice"></image>
+  </view> -->
+
+  <!-- 中部菜单栏 -->
+  <view class="flex-center menu-list">
+    <!-- qq群 -->
+    <!-- <view class="flex-row-between menu-items">
+      <view class="menu-items-left">
+        <image class="menu-icon" src='您的域名/files/icon/qq_icon.png'></image>
+        <view class="menu-title">QQ群</view>
+      </view>
+      <view class="menu-items-right" bindtap="copyQQGroup">
+        <view class="menu-remake">点击复制群号</view>
+        <image class="menu-icon" src="{{arrows}}" />
+      </view>
+    </view> -->
+
+    <!-- 我的收藏 -->
+    <view class="flex-row-between menu-items" bindtap="goCollect">
+      <view class="menu-items-left">
+        <image class="menu-icon" src='您的域名/files/icon/image_collect_icon.png'></image>
+        <view class="menu-title">我的收藏</view>
+      </view>
+      <view class="menu-items-right">
+        <view class="menu-remake">数量: {{collectSum}}</view>
+        <image class="menu-icon" src="{{arrows}}" />
+      </view>
+    </view>
+
+    <!-- 常见问题 -->
+    <!-- <view class="flex-row-between menu-items" bindtap="openCommonProblemsTab">
+      <view class="menu-items-left">
+        <image class="menu-icon" src='您的域名/files/icon/common_problems_icon.png'></image>
+        <view class="menu-title">常见问题</view>
+      </view>
+      <view class="menu-items-right">
+        <view class="menu-remake"></view>
+        <image class="menu-icon" src="{{arrows}}" />
+      </view>
+    </view> -->
+
+    <!-- 联系客服 -->
+    <view class="flex-row-between menu-items">
+      <button class="transparent-button" open-type="contact" bindcontact="handleContact" session-from="sessionFrom">
+        <view class="menu-items-left">
+          <image class="menu-icon" src='您的域名/files/icon/contact_icon.png'></image>
+          <view class="menu-title">联系客服</view>
+        </view>
+      </button>
+      <view style="width:35rpx;" class="menu-items-right">
+        <!-- <view class="menu-remake">需求&建议</view> -->
+        <image class="menu-icon" src="{{arrows}}" />
+      </view>
+    </view>
+
+    <!-- 清理缓存 -->
+    <!-- <view class="flex-row-between menu-items" bindtap="showClearCacheModal">
+      <view class="menu-items-left">
+        <image class="menu-icon" src='您的域名/files/icon/clear_cache_icon.png'></image>
+        <view class="menu-title">清理缓存</view>
+      </view>
+      <view class="menu-items-right">
+        <image class="menu-icon" src="{{arrows}}" />
+      </view>
+    </view> -->
+
+    <!-- 关联 -->
+    <view class="flex-row-between menu-items" bindtap="openLinkRemake">
+      <view style="width:300rpx;" class="menu-items-left">
+        <image class="menu-icon" src='您的域名/files/icon/link_icon.png'></image>
+        <view class="menu-title">关联我们</view>
+      </view>
+      <view class="menu-items-right">
+        <view class="menu-remake"></view>
+        <image class="menu-icon" src="{{arrows}}" />
+      </view>
+    </view>
+    
+    <!-- 关于我们 -->
+    <view class="flex-row-between menu-items" bindtap="openAboutTab">
+      <view class="menu-items-left">
+        <image class="menu-icon" src='您的域名/files/icon/about_icon.png'></image>
+        <view class="menu-title">关于我们</view>
+      </view>
+      <view class="menu-items-right">
+        <view class="menu-remake">版本：{{version}}</view>
+        <image class="menu-icon" src="{{arrows}}" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 称号栏 下次大改版推出 -->
+  <!-- <view class="bottom-box">
+    <view class="days-record">
+      <image class="question-icon" src="您的域名/files/icon/question_icon.png"  bindtap="togglePopup"></image>
+      <view>当前称号：</view>
+      <view style="color:{{currentAccountColor}}">青柠侠</view>
+    </view>
+    <view class="days-record">
+      <view>累计陪伴小柠已达</view>
+      <view class="days-record-text">{{daysElapsed}}</view>
+      <view>天</view>
+    </view>
+  </view> -->
+
+  <!-- 称号清单弹出窗口 -->
+  <!-- <view wx:if="{{showPopup}}" class="popup-overlay" bindtap="hidePopup">
+    <view class="popup-box" catchtap="preventPopupClose">
+      <text>剩{{remainingDays}}天解锁称号: {{accountTitle.name}}</text>
+    </view>
+  </view> -->
+
+  <!-- 底部(考虑去掉) -->
+  <!-- <view class="flex-center bottom-list">
+    <view style="margin:30rpx;font-size:40rpx;font-weight:bold;color:#c7baba;">青柠客壁纸</view>
+    <view style="font-size:24rpx;color:#c7baba;">疏影横斜水清浅，暗香浮动月黄昏。</view>
+    <view style="font-size:24rpx;color:#c7baba;">林逋《山园小梅》</view>
+  </view> -->
+  
+</view>

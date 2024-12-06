@@ -1,0 +1,19 @@
+/* 底部加载栏 */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20rpx;
+  font-size: 24rpx;
+  color: #888;
+}
+.loading-box{
+  display: flex;
+  align-items: center;
+}
+.loading-img{
+  width: 23rpx;
+  height: 23rpx;
+  margin-left: 10rpx;
+  margin-right: 5rpx;
+}
