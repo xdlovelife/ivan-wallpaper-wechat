@@ -1,0 +1,5 @@
+<view class="no-data">
+  <image class="no-data-image" src="/assets/images/no-data.png" mode="aspectFit" />
+  <view class="no-data-text">暂无数据</view>
+  <view class="no-data-tip">稍后再来看看吧~</view>
+</view> 

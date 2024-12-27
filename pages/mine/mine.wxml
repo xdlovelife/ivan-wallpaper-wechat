@@ -1,0 +1,92 @@
+<view class="container">
+  <!-- 用户信息 -->
+  <view class="user-info">
+    <image class="avatar" src="{{userInfo.avatar}}" />
+    <view class="user-detail">
+      <view class="nickname">{{userInfo.nickname || 'Ivan'}}</view>
+      <view class="uid" bindtap="onCopyUid">
+        UID: {{userInfo.uid || '184891972483950921'}}
+        <text class="copy">复制</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats">
+    <view class="stat-item" bindtap="onCoinsTap">
+      <view class="stat-value">{{stats.coins}}</view>
+      <view class="stat-label">剩余青豆</view>
+    </view>
+    <view class="stat-item" bindtap="onCollectionsTap">
+      <view class="stat-value">{{stats.collections}}</view>
+      <view class="stat-label">我的收藏</view>
+    </view>
+    <view class="stat-item" bindtap="onDownloadsTap">
+      <view class="stat-value">{{stats.downloads}}</view>
+      <view class="stat-label">下载记录</view>
+    </view>
+  </view>
+
+  <!-- 任务列表 -->
+  <view class="task-list">
+    <view class="task-item" bindtap="onDailyCheckIn">
+      <view class="task-info">
+        <image class="task-icon" src="/assets/icons/checkin.png" />
+        <text>每日签到</text>
+      </view>
+      <view class="task-reward">青豆+1/天</view>
+    </view>
+    <button 
+      class="task-item share-btn" 
+      open-type="share"
+      hover-class="none"
+    >
+      <view class="task-info">
+        <image class="task-icon" src="/assets/icons/share.png" />
+        <text>分享好友</text>
+      </view>
+      <view class="task-reward">青豆+2/天</view>
+    </button>
+    <view class="task-item" bindtap="onWatchAd">
+      <view class="task-info">
+        <image class="task-icon" src="/assets/icons/video.png" />
+        <text>播放广告</text>
+      </view>
+      <view class="task-reward">青豆+3/次</view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="menu-list">
+    <view class="menu-item" bindtap="onCollectionsTap">
+      <view class="menu-info">
+        <image class="menu-icon" src="/assets/icons/star.png" />
+        <text>我的收藏</text>
+      </view>
+      <image class="arrow" src="/assets/icons/arrow.png" />
+    </view>
+    <button 
+      class="menu-item contact-btn" 
+      open-type="contact"
+      hover-class="none"
+    >
+      <view class="menu-info">
+        <image class="menu-icon" src="/assets/icons/service.png" />
+        <text>联系客服</text>
+      </view>
+      <image class="arrow" src="/assets/icons/arrow.png" />
+    </button>
+    <view class="menu-item" bindtap="onAboutUs">
+      <view class="menu-info">
+        <image class="menu-icon" src="/assets/icons/about.png" />
+        <text>关于我们</text>
+      </view>
+      <image class="arrow" src="/assets/icons/arrow.png" />
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version">
+    <text>版本：v3.5.4</text>
+  </view>
+</view> 

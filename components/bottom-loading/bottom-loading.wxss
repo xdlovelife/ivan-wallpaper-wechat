@@ -1,0 +1,43 @@
+.loading-container {
+  padding: 30rpx;
+  text-align: center;
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.loading-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #999;
+  animation: loading 1s infinite;
+}
+
+.loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 12rpx;
+}
+
+@keyframes loading {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+} 

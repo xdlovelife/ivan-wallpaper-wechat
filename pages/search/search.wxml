@@ -1,0 +1,242 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input">
+      <image class="search-icon" src="/assets/icons/search.png" />
+      <input 
+        class="input" 
+        placeholder="搜索壁纸" 
+        value="{{keyword}}"
+        confirm-type="search"
+        bindinput="onKeywordInput"
+        bindconfirm="onSearch"
+      />
+      <image 
+        class="clear-icon" 
+        src="/assets/icons/clear.png" 
+        wx:if="{{keyword}}"
+        bindtap="onKeywordClear"
+      />
+    </view>
+    <view class="filter-btn" bindtap="onFilterTap">
+      <image class="filter-icon" src="/assets/icons/filter.png" />
+      <text>筛选</text>
+    </view>
+  </view>
+
+  <!-- 搜索历史 -->
+  <view class="history" wx:if="{{!keyword && history.length > 0}}">
+    <view class="section-header">
+      <text>搜索历史</text>
+      <image 
+        class="delete-icon" 
+        src="/assets/icons/delete.png"
+        bindtap="onHistoryClear"
+      />
+    </view>
+    <view class="tag-list">
+      <view 
+        class="tag" 
+        wx:for="{{history}}" 
+        wx:key="*this"
+        data-keyword="{{item}}"
+        bindtap="onHistoryTap"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门搜索 -->
+  <view class="hot" wx:if="{{!keyword}}">
+    <view class="section-header">
+      <text>热门搜索</text>
+    </view>
+    <view class="tag-list">
+      <view 
+        class="tag" 
+        wx:for="{{hotKeywords}}" 
+        wx:key="*this"
+        data-keyword="{{item}}"
+        bindtap="onHistoryTap"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索结果 -->
+  <scroll-view 
+    class="result-list" 
+    scroll-y 
+    wx:if="{{keyword && list.length > 0}}"
+    bindscrolltolower="onReachBottom"
+  >
+    <view 
+      class="wallpaper-item" 
+      wx:for="{{list}}" 
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onWallpaperTap"
+      hover-class="wallpaper-item-hover"
+    >
+      <image 
+        class="wallpaper-image" 
+        src="{{item.thumbnail}}" 
+        mode="aspectFill"
+        lazy-load
+      />
+      <view class="wallpaper-info">
+        <view class="wallpaper-title">{{item.title}}</view>
+        <view class="wallpaper-stats">
+          <view class="stat-item">
+            <image class="stat-icon" src="/assets/icons/view.png" />
+            <text>{{item.views}}</text>
+          </view>
+          <view class="stat-item">
+            <image class="stat-icon" src="/assets/icons/download.png" />
+            <text>{{item.downloads}}</text>
+          </view>
+          <view class="stat-item">
+            <image class="stat-icon" src="/assets/icons/like.png" />
+            <text>{{item.likes}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{keyword && !loading && list.length === 0 && !error}}">
+    <image class="empty-icon" src="/assets/icons/empty.png" />
+    <text>未找到相关壁纸</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view class="error" wx:if="{{error}}" bindtap="loadData" data-refresh="{{true}}">
+    <image class="error-icon" src="/assets/icons/error.png" />
+    <text>{{error}}</text>
+    <text class="retry">点击重试</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 筛选面板 -->
+  <view class="filter-panel {{showFilter ? 'show' : ''}}">
+    <view class="filter-mask" bindtap="onFilterClose"></view>
+    <view class="filter-content">
+      <!-- 排序方式 -->
+      <view class="filter-section">
+        <view class="filter-title">排序方式</view>
+        <view class="filter-options">
+          <view 
+            class="filter-option {{filters.sort === 'latest' ? 'active' : ''}}"
+            data-type="sort"
+            data-value="latest"
+            bindtap="onFilterChange"
+          >
+            最新
+          </view>
+          <view 
+            class="filter-option {{filters.sort === 'popular' ? 'active' : ''}}"
+            data-type="sort"
+            data-value="popular"
+            bindtap="onFilterChange"
+          >
+            最热
+          </view>
+          <view 
+            class="filter-option {{filters.sort === 'downloads' ? 'active' : ''}}"
+            data-type="sort"
+            data-value="downloads"
+            bindtap="onFilterChange"
+          >
+            下载最多
+          </view>
+        </view>
+      </view>
+
+      <!-- 时间范围 -->
+      <view class="filter-section">
+        <view class="filter-title">时间范围</view>
+        <view class="filter-options">
+          <view 
+            class="filter-option {{filters.time === 'all' ? 'active' : ''}}"
+            data-type="time"
+            data-value="all"
+            bindtap="onFilterChange"
+          >
+            全部
+          </view>
+          <view 
+            class="filter-option {{filters.time === 'day' ? 'active' : ''}}"
+            data-type="time"
+            data-value="day"
+            bindtap="onFilterChange"
+          >
+            今日
+          </view>
+          <view 
+            class="filter-option {{filters.time === 'week' ? 'active' : ''}}"
+            data-type="time"
+            data-value="week"
+            bindtap="onFilterChange"
+          >
+            本周
+          </view>
+          <view 
+            class="filter-option {{filters.time === 'month' ? 'active' : ''}}"
+            data-type="time"
+            data-value="month"
+            bindtap="onFilterChange"
+          >
+            本月
+          </view>
+        </view>
+      </view>
+
+      <!-- 屏幕比例 -->
+      <view class="filter-section">
+        <view class="filter-title">屏幕比例</view>
+        <view class="filter-options">
+          <view 
+            class="filter-option {{filters.ratio === 'all' ? 'active' : ''}}"
+            data-type="ratio"
+            data-value="all"
+            bindtap="onFilterChange"
+          >
+            全部
+          </view>
+          <view 
+            class="filter-option {{filters.ratio === '169' ? 'active' : ''}}"
+            data-type="ratio"
+            data-value="169"
+            bindtap="onFilterChange"
+          >
+            16:9
+          </view>
+          <view 
+            class="filter-option {{filters.ratio === '189' ? 'active' : ''}}"
+            data-type="ratio"
+            data-value="189"
+            bindtap="onFilterChange"
+          >
+            18:9
+          </view>
+          <view 
+            class="filter-option {{filters.ratio === '219' ? 'active' : ''}}"
+            data-type="ratio"
+            data-value="219"
+            bindtap="onFilterChange"
+          >
+            21:9
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

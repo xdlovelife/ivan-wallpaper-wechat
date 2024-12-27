@@ -1,0 +1,22 @@
+.no-data {
+  padding: 60rpx 0;
+  text-align: center;
+}
+
+.no-data-image {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 20rpx;
+}
+
+.no-data-text {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+
+.no-data-tip {
+  font-size: 26rpx;
+  color: #999;
+} 

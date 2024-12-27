@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "bottom-loading": "/components/bottom-loading/bottom-loading",
+    "no-data": "/components/no-data/no-data"
+  },
+  "navigationBarTitleText": "壁纸预览",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
+} 

@@ -1,0 +1,107 @@
+<view class="container">
+  <!-- 壁纸预览 -->
+  <view class="preview" wx:if="{{wallpaper}}">
+    <image 
+      class="wallpaper-image" 
+      src="{{wallpaper.url}}" 
+      mode="aspectFill"
+      bindtap="onPreviewTap"
+    />
+    
+    <!-- 壁纸信息 -->
+    <view class="info">
+      <view class="title">{{wallpaper.title}}</view>
+      <view class="description" wx:if="{{wallpaper.description}}">
+        {{wallpaper.description}}
+      </view>
+      <view class="stats">
+        <view class="stat-item">
+          <image class="stat-icon" src="/assets/icons/view.png" />
+          <text>{{wallpaper.views}}</text>
+        </view>
+        <view class="stat-item">
+          <image class="stat-icon" src="/assets/icons/download.png" />
+          <text>{{wallpaper.downloads}}</text>
+        </view>
+        <view class="stat-item">
+          <image class="stat-icon" src="/assets/icons/like.png" />
+          <text>{{wallpaper.likes}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions" wx:if="{{wallpaper}}">
+    <button 
+      class="action-btn {{isLiked ? 'liked' : ''}}"
+      hover-class="btn-hover"
+      bindtap="onLikeTap"
+    >
+      <image 
+        class="action-icon" 
+        src="/assets/icons/{{isLiked ? 'like_filled' : 'like'}}.png" 
+      />
+      <text>{{isLiked ? '已收藏' : '收藏'}}</text>
+    </button>
+    
+    <button 
+      class="action-btn"
+      hover-class="btn-hover"
+      bindtap="onDownloadTap"
+    >
+      <image class="action-icon" src="/assets/icons/download.png" />
+      <text>下载</text>
+    </button>
+    
+    <button 
+      class="action-btn"
+      hover-class="btn-hover"
+      bindtap="onShareTap"
+    >
+      <image class="action-icon" src="/assets/icons/share.png" />
+      <text>分享</text>
+    </button>
+  </view>
+
+  <!-- 错误状态 -->
+  <view class="error" wx:if="{{error}}">
+    <image class="error-icon" src="/assets/icons/error.png" />
+    <text>{{error}}</text>
+    <text class="retry" bindtap="loadWallpaper">点击重试</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="loading-icon"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 分享面板 -->
+  <view class="share-panel {{showShare ? 'show' : ''}}">
+    <view class="share-mask" bindtap="onCloseShare"></view>
+    <view class="share-content">
+      <view class="share-title">分享到</view>
+      <view class="share-options">
+        <button 
+          class="share-btn"
+          open-type="share"
+          hover-class="btn-hover"
+        >
+          <image class="share-icon" src="/assets/icons/wechat.png" />
+          <text>微信好友</text>
+        </button>
+        
+        <button 
+          class="share-btn"
+          bindtap="onShareTimeline"
+          hover-class="btn-hover"
+        >
+          <image class="share-icon" src="/assets/icons/moments.png" />
+          <text>朋友圈</text>
+        </button>
+      </view>
+      <view class="share-cancel" bindtap="onCloseShare">取消</view>
+    </view>
+  </view>
+</view> 

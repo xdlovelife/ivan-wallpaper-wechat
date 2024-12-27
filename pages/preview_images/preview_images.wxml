@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="wallpaper-list">
+    <view class="wallpaper-item" 
+          wx:for="{{list}}" 
+          wx:key="id" 
+          bindtap="onImageTap" 
+          data-index="{{index}}">
+      <image class="wallpaper-image" 
+             src="{{item.thumbUrl}}" 
+             mode="aspectFill"
+             lazy-load />
+      <view class="wallpaper-actions">
+        <view class="action-btn {{item.isFavorite ? 'active' : ''}}" 
+              catchtap="onFavoriteTap" 
+              data-id="{{item.id}}">
+          <image class="action-icon" 
+                 src="/assets/images/{{item.isFavorite ? 'favorite-filled.png' : 'favorite.png'}}" />
+        </view>
+        <view class="action-btn" 
+              catchtap="onDownloadTap" 
+              data-url="{{item.originUrl}}"
+              data-id="{{item.id}}">
+          <image class="action-icon" src="/assets/images/download.png" />
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <bottom-loading wx:if="{{loading}}" />
+  <no-data wx:if="{{!loading && list.length === 0}}" />
+</view> 

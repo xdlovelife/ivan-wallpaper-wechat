@@ -74,6 +74,132 @@ declare namespace WechatMiniprogram {
     type AnimationObject = any
     type SharedValue<T = any> = T
     type DerivedValue<T = any> = T
+
+    interface Wx {
+        request<T = any>(option: RequestOption<T>): RequestTask
+        showToast(option: ShowToastOption): void
+        hideToast(option?: HideToastOption): void
+        showLoading(option: ShowLoadingOption): void
+        hideLoading(option?: HideLoadingOption): void
+        showModal(option: ShowModalOption): void
+        showActionSheet(option: ShowActionSheetOption): void
+        navigateTo(option: NavigateToOption): void
+        redirectTo(option: RedirectToOption): void
+        switchTab(option: SwitchTabOption): void
+        navigateBack(option?: NavigateBackOption): void
+        login(option?: LoginOption): void
+        getUserInfo(option: GetUserInfoOption): void
+        getStorageSync(key: string): any
+        setStorageSync(key: string, data: any): void
+    }
+
+    interface RequestOption<T> {
+        url: string
+        data?: string | object | ArrayBuffer
+        header?: object
+        method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
+        dataType?: string
+        responseType?: string
+        success?: (res: RequestSuccessCallbackResult<T>) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult | RequestSuccessCallbackResult<T>) => void
+    }
+
+    interface RequestSuccessCallbackResult<T> {
+        data: T
+        statusCode: number
+        header: object
+    }
+
+    interface RequestTask {
+        abort(): void
+    }
+
+    interface ShowToastOption {
+        title: string
+        icon?: 'success' | 'loading' | 'none'
+        image?: string
+        duration?: number
+        mask?: boolean
+        success?: (res: GeneralCallbackResult) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface HideToastOption {
+        success?: (res: GeneralCallbackResult) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface ShowLoadingOption {
+        title: string
+        mask?: boolean
+        success?: (res: GeneralCallbackResult) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface HideLoadingOption {
+        success?: (res: GeneralCallbackResult) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface NavigateToOption {
+        url: string
+        success?: (res: GeneralCallbackResult) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface RedirectToOption {
+        url: string
+        success?: (res: GeneralCallbackResult) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface NavigateBackOption {
+        delta?: number
+        success?: (res: GeneralCallbackResult) => void
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface GeneralCallbackResult {
+        errMsg: string
+    }
+
+    interface GetUserInfoOption {
+        withCredentials?: boolean
+        lang?: string
+        success?: GetUserInfoSuccessCallback
+        fail?: (res: GeneralCallbackResult) => void
+        complete?: (res: GeneralCallbackResult) => void
+    }
+
+    interface GetUserInfoSuccessCallback {
+        (result: GetUserInfoSuccessCallbackResult): void
+    }
+
+    interface GetUserInfoSuccessCallbackResult {
+        userInfo: UserInfo
+        rawData: string
+        signature: string
+        encryptedData: string
+        iv: string
+    }
+
+    interface UserInfo {
+        nickName: string
+        avatarUrl: string
+        gender: number
+        country: string
+        province: string
+        city: string
+        language: string
+    }
 }
 
 declare let console: WechatMiniprogram.Console

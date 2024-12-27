@@ -1,0 +1,224 @@
+.container {
+  min-height: 100vh;
+  background: #000;
+  position: relative;
+}
+
+/* 壁纸预览 */
+.preview {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.wallpaper-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 壁纸信息 */
+.info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 180rpx;
+  padding: 30rpx;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  color: #fff;
+}
+
+.title {
+  font-size: 32rpx;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+}
+
+.description {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 20rpx;
+}
+
+.stats {
+  display: flex;
+  gap: 30rpx;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stat-icon {
+  width: 32rpx;
+  height: 32rpx;
+  opacity: 0.8;
+}
+
+/* 操作按钮 */
+.actions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 30rpx;
+  background: rgba(0,0,0,0.8);
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 20rpx;
+  line-height: 1;
+}
+
+.action-btn::after {
+  display: none;
+}
+
+.action-btn.liked {
+  color: #ff4d4f;
+}
+
+.btn-hover {
+  opacity: 0.8;
+}
+
+.action-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+/* 错误状态 */
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+
+.error-icon {
+  width: 128rpx;
+  height: 128rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.8;
+}
+
+.retry {
+  margin-top: 20rpx;
+  color: #1890ff;
+}
+
+/* 加载状态 */
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+
+.loading-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-bottom: 20rpx;
+  border: 4rpx solid rgba(255,255,255,0.3);
+  border-top: 4rpx solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 分享面板 */
+.share-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.share-panel.show {
+  transform: translateY(0);
+}
+
+.share-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: -1;
+}
+
+.share-content {
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 30rpx;
+}
+
+.share-title {
+  text-align: center;
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 30rpx;
+}
+
+.share-options {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30rpx;
+}
+
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  background: transparent;
+  border: none;
+  font-size: 24rpx;
+  color: #333;
+  line-height: 1;
+  padding: 20rpx;
+}
+
+.share-btn::after {
+  display: none;
+}
+
+.share-icon {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.share-cancel {
+  text-align: center;
+  font-size: 28rpx;
+  color: #333;
+  padding: 20rpx;
+  border-top: 1rpx solid #eee;
+} 
