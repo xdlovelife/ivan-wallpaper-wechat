@@ -1,0 +1,64 @@
+<view class="skeleton {{animate ? 'animate' : ''}}">
+  <!-- 壁纸列表骨架 -->
+  <block wx:if="{{type === 'wallpaper'}}">
+    <view 
+      class="skeleton-item"
+      wx:for="{{count}}"
+      wx:key="index"
+    >
+      <view class="skeleton-image"></view>
+      <view class="skeleton-content">
+        <view class="skeleton-title"></view>
+        <view class="skeleton-stats">
+          <view class="skeleton-stat"></view>
+          <view class="skeleton-stat"></view>
+          <view class="skeleton-stat"></view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 分类列表骨架 -->
+  <block wx:elif="{{type === 'category'}}">
+    <view 
+      class="skeleton-category"
+      wx:for="{{count}}"
+      wx:key="index"
+    >
+      <view class="skeleton-icon"></view>
+      <view class="skeleton-name"></view>
+    </view>
+  </block>
+
+  <!-- 详情页骨架 -->
+  <block wx:elif="{{type === 'detail'}}">
+    <view class="skeleton-detail">
+      <view class="skeleton-cover"></view>
+      <view class="skeleton-info">
+        <view class="skeleton-title-lg"></view>
+        <view class="skeleton-desc"></view>
+        <view class="skeleton-tags">
+          <view class="skeleton-tag"></view>
+          <view class="skeleton-tag"></view>
+          <view class="skeleton-tag"></view>
+        </view>
+        <view class="skeleton-stats-lg">
+          <view class="skeleton-stat-lg"></view>
+          <view class="skeleton-stat-lg"></view>
+          <view class="skeleton-stat-lg"></view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 用户信息骨架 -->
+  <block wx:elif="{{type === 'user'}}">
+    <view class="skeleton-user">
+      <view class="skeleton-avatar"></view>
+      <view class="skeleton-user-info">
+        <view class="skeleton-nickname"></view>
+        <view class="skeleton-uid"></view>
+      </view>
+    </view>
+  </block>
+</view> 

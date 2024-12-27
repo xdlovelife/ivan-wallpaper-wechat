@@ -1,92 +1,165 @@
 <view class="container">
-  <!-- 用户信息 -->
-  <view class="user-info">
-    <image class="avatar" src="{{userInfo.avatar}}" />
-    <view class="user-detail">
-      <view class="nickname">{{userInfo.nickname || 'Ivan'}}</view>
-      <view class="uid" bindtap="onCopyUid">
-        UID: {{userInfo.uid || '184891972483950921'}}
-        <text class="copy">复制</text>
-      </view>
-    </view>
+  <!-- 顶部状态栏 -->
+  <view class="status-bar" style="height: {{statusBarHeight}}px"></view>
+  
+  <!-- 导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-title">我的</view>
   </view>
 
-  <!-- 统计数据 -->
-  <view class="stats">
-    <view class="stat-item" bindtap="onCoinsTap">
-      <view class="stat-value">{{stats.coins}}</view>
-      <view class="stat-label">剩余青豆</view>
-    </view>
-    <view class="stat-item" bindtap="onCollectionsTap">
-      <view class="stat-value">{{stats.collections}}</view>
-      <view class="stat-label">我的收藏</view>
-    </view>
-    <view class="stat-item" bindtap="onDownloadsTap">
-      <view class="stat-value">{{stats.downloads}}</view>
-      <view class="stat-label">下载记录</view>
-    </view>
-  </view>
+  <!-- 骨架屏 -->
+  <skeleton 
+    wx:if="{{loading && !userInfo.id}}"
+    type="user"
+    animate="{{true}}"
+  />
 
-  <!-- 任务列表 -->
-  <view class="task-list">
-    <view class="task-item" bindtap="onDailyCheckIn">
-      <view class="task-info">
-        <image class="task-icon" src="/assets/icons/checkin.png" />
-        <text>每日签到</text>
+  <!-- 主要内容 -->
+  <block wx:else>
+    <!-- 用户信息 -->
+    <view class="user-info">
+      <button 
+        class="avatar-wrapper" 
+        open-type="chooseAvatar" 
+        bind:chooseavatar="onChooseAvatar"
+      >
+        <image class="avatar" src="{{userInfo.avatar}}" mode="aspectFill" />
+      </button>
+      <view class="user-detail">
+        <input 
+          type="nickname" 
+          class="nickname" 
+          placeholder="请输入昵称"
+          value="{{userInfo.nickname}}"
+          bind:change="onNicknameChange"
+        />
+        <view class="uid-box">
+          <text class="uid">UID: {{userInfo.id}}</text>
+          <text class="copy-btn" bindtap="onCopyUid">复制</text>
+        </view>
       </view>
-      <view class="task-reward">青豆+1/天</view>
     </view>
-    <button 
-      class="task-item share-btn" 
-      open-type="share"
-      hover-class="none"
-    >
-      <view class="task-info">
-        <image class="task-icon" src="/assets/icons/share.png" />
-        <text>分享好友</text>
-      </view>
-      <view class="task-reward">青豆+2/天</view>
-    </button>
-    <view class="task-item" bindtap="onWatchAd">
-      <view class="task-info">
-        <image class="task-icon" src="/assets/icons/video.png" />
-        <text>播放广告</text>
-      </view>
-      <view class="task-reward">青豆+3/次</view>
-    </view>
-  </view>
 
-  <!-- 功能列表 -->
-  <view class="menu-list">
-    <view class="menu-item" bindtap="onCollectionsTap">
-      <view class="menu-info">
-        <image class="menu-icon" src="/assets/icons/star.png" />
-        <text>我的收藏</text>
+    <!-- 用户数据 -->
+    <view class="user-data">
+      <view class="data-item" bindtap="onPointsTap">
+        <view class="data-value">{{userInfo.points || 0}}</view>
+        <view class="data-label">剩余青豆</view>
       </view>
-      <image class="arrow" src="/assets/icons/arrow.png" />
+      <view class="data-item" bindtap="onCollectTap">
+        <view class="data-value">{{collectSum || 0}}</view>
+        <view class="data-label">我的收藏</view>
+      </view>
+      <view class="data-item" bindtap="onDownloadTap">
+        <view class="data-value">{{downloadSum || 0}}</view>
+        <view class="data-label">下载记录</view>
+      </view>
     </view>
-    <button 
-      class="menu-item contact-btn" 
-      open-type="contact"
-      hover-class="none"
-    >
-      <view class="menu-info">
-        <image class="menu-icon" src="/assets/icons/service.png" />
-        <text>联系客服</text>
-      </view>
-      <image class="arrow" src="/assets/icons/arrow.png" />
-    </button>
-    <view class="menu-item" bindtap="onAboutUs">
-      <view class="menu-info">
-        <image class="menu-icon" src="/assets/icons/about.png" />
-        <text>关于我们</text>
-      </view>
-      <image class="arrow" src="/assets/icons/arrow.png" />
-    </view>
-  </view>
 
-  <!-- 版本信息 -->
-  <view class="version">
-    <text>版本：v3.5.4</text>
-  </view>
+    <!-- 任务列表 -->
+    <view class="card task-card">
+      <view class="card-title">每日任务</view>
+      <view class="task-list">
+        <view class="task-item" bindtap="onSignIn" data-uid="{{userInfo.id}}" data-operation="1">
+          <view class="task-info">
+            <image class="task-icon" src="/assets/icons/sign.png" mode="aspectFit" />
+            <text>每日签到</text>
+          </view>
+          <view class="task-action">
+            <text class="task-reward">+1青豆</text>
+            <view class="task-btn {{isSignIn ? 'disabled' : ''}}">
+              {{isSignIn ? '已签到' : '签到'}}
+            </view>
+          </view>
+        </view>
+
+        <button 
+          class="task-item share-btn" 
+          open-type="share"
+          hover-class="none"
+        >
+          <view class="task-info">
+            <image class="task-icon" src="/assets/icons/share.png" mode="aspectFit" />
+            <text>分享好友</text>
+          </view>
+          <view class="task-action">
+            <text class="task-reward">+2青豆</text>
+            <view class="task-btn">分享</view>
+          </view>
+        </button>
+
+        <view class="task-item" bindtap="onMorePoints" data-uid="{{userInfo.id}}" data-operation="3">
+          <view class="task-info">
+            <image class="task-icon" src="/assets/icons/video.png" mode="aspectFit" />
+            <text>观看广告</text>
+          </view>
+          <view class="task-action">
+            <text class="task-reward">+3青豆</text>
+            <view class="task-btn">观看</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 功能列表 -->
+    <view class="card menu-card">
+      <view class="menu-group">
+        <view class="menu-item" bindtap="goCollect">
+          <image class="menu-icon" src="/assets/icons/collect.png" mode="aspectFit" />
+          <text class="menu-label">我的收藏</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </view>
+        <view class="menu-item" bindtap="goDownload">
+          <image class="menu-icon" src="/assets/icons/download.png" mode="aspectFit" />
+          <text class="menu-label">下载记录</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </view>
+        <view class="menu-item" bindtap="goRecords">
+          <image class="menu-icon" src="/assets/icons/points.png" mode="aspectFit" />
+          <text class="menu-label">青豆明细</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </view>
+      </view>
+
+      <view class="menu-group">
+        <button 
+          class="menu-item contact-btn" 
+          open-type="contact"
+          hover-class="none"
+        >
+          <image class="menu-icon" src="/assets/icons/service.png" mode="aspectFit" />
+          <text class="menu-label">联系客服</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </button>
+        <view class="menu-item" bindtap="openFeedbackTab">
+          <image class="menu-icon" src="/assets/icons/feedback.png" mode="aspectFit" />
+          <text class="menu-label">意见反馈</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </view>
+        <view class="menu-item" bindtap="openCommonProblemsTab">
+          <image class="menu-icon" src="/assets/icons/faq.png" mode="aspectFit" />
+          <text class="menu-label">常见问题</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </view>
+      </view>
+
+      <view class="menu-group">
+        <view class="menu-item" bindtap="openAboutTab">
+          <image class="menu-icon" src="/assets/icons/about.png" mode="aspectFit" />
+          <text class="menu-label">关于我们</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </view>
+        <view class="menu-item" bindtap="showClearCacheModal">
+          <image class="menu-icon" src="/assets/icons/clear.png" mode="aspectFit" />
+          <text class="menu-label">清除缓存</text>
+          <image class="menu-arrow" src="/assets/icons/arrow.png" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 版本信息 -->
+    <view class="version">
+      <text>当前版本 {{version}}</text>
+    </view>
+  </block>
 </view> 

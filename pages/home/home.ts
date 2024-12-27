@@ -1,102 +1,116 @@
 import { api } from '../../services/api'
+import { IWallpaper } from '../../types/wallpaper'
+import { ErrorHandler } from '../../utils/error'
 
-interface IWallpaper {
-  id: number
-  title: string
-  url: string
-  thumbnail: string
-  width: number
-  height: number
-  category_id: number
-  views: number
-  downloads: number
-  likes: number
-}
-
-interface IPageData {
-  list: IWallpaper[]
-  loading: boolean
-  refreshing: boolean
-  page: number
-  hasMore: boolean
-  error: string
-}
-
-type IPageCustom = WechatMiniprogram.Page.CustomOption
-
-Page<IPageData, IPageCustom>({
+Page({
   data: {
-    list: [],
-    loading: false,
-    refreshing: false,
+    // 壁纸列表
+    list: [] as IWallpaper[],
+    // 分类列表
+    categories: [] as Array<{id: string; name: string}>,
+    // 当前选中的分类
+    currentCategory: '',
+    // 搜索关键词
+    keyword: '',
+    // 页码
     page: 1,
+    // 是否有更多数据
     hasMore: true,
-    error: ''
+    // 是否正在加载
+    loading: false,
+    // 是否正在刷新
+    isRefreshing: false
   },
 
   onLoad() {
+    this.loadCategories()
     this.loadData()
   },
 
+  // 加载分类
+  async loadCategories() {
+    try {
+      const categories = await api.getCategories()
+      this.setData({ categories })
+    } catch (error) {
+      ErrorHandler.showError('加载分类失败')
+    }
+  },
+
+  // 加载壁纸数据
   async loadData(refresh = false) {
-    if (!refresh && (!this.data.hasMore || this.data.loading)) return
-    
+    if (this.data.loading || (!refresh && !this.data.hasMore)) return
+
     this.setData({ 
       loading: true,
-      error: ''
+      page: refresh ? 1 : this.data.page
     })
 
     try {
-      const data = await api.getWallpapers({
-        page: refresh ? 1 : this.data.page
+      const { list, hasMore } = await api.searchWallpapers({
+        keyword: this.data.keyword,
+        category: this.data.currentCategory,
+        page: this.data.page,
+        pageSize: 10
       })
-      
+
       this.setData({
-        list: refresh ? data.list : [...this.data.list, ...data.list],
-        page: refresh ? 2 : this.data.page + 1,
-        hasMore: data.hasMore
+        list: refresh ? list : [...this.data.list, ...list],
+        hasMore,
+        page: this.data.page + 1
       })
-    } catch (error: any) {
-      console.error('加载数据失败:', error)
-      this.setData({ 
-        error: error.message || '加载失败，请稍后重试'
-      })
-      wx.showToast({
-        title: '加载失败',
-        icon: 'none'
-      })
+    } catch (error) {
+      ErrorHandler.showError('加载壁纸失败')
     } finally {
       this.setData({ 
         loading: false,
-        refreshing: false
+        isRefreshing: false
       })
     }
   },
 
-  onReachBottom() {
-    if (this.data.error) {
-      this.loadData(true)
-    } else {
-      this.loadData()
-    }
-  },
-
-  onPullDownRefresh() {
-    this.setData({ refreshing: true })
-    this.loadData(true).finally(() => {
-      wx.stopPullDownRefresh()
+  // 搜索输入
+  onSearchInput(e: WechatMiniprogram.Input) {
+    this.setData({
+      keyword: e.detail.value.trim()
     })
   },
 
-  onTapWallpaper(e: WechatMiniprogram.TouchEvent) {
-    const { id } = e.currentTarget.dataset
-    if (!id) return
-    
+  // 搜索确认
+  onSearch() {
+    this.loadData(true)
+  },
+
+  // 点击分类标签
+  onTagTap(e: WechatMiniprogram.TouchEvent) {
+    const category = e.currentTarget.dataset.category
+    this.setData({
+      currentCategory: category
+    }, () => {
+      this.loadData(true)
+    })
+  },
+
+  // 点击壁纸
+  onWallpaperTap(e: WechatMiniprogram.TouchEvent) {
+    const id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: `/pages/wallpaper/detail?id=${id}`
     })
   },
 
+  // 下拉刷新
+  onRefresh() {
+    this.setData({ isRefreshing: true })
+    this.loadData(true)
+  },
+
+  // 加载更多
+  onLoadMore() {
+    this.loadData()
+  },
+
+  // 分享
   onShareAppMessage() {
     return {
       title: '精选壁纸',
@@ -104,6 +118,7 @@ Page<IPageData, IPageCustom>({
     }
   },
 
+  // 分享到朋友圈
   onShareTimeline() {
     return {
       title: '精选壁纸'

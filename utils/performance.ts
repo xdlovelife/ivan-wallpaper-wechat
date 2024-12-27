@@ -2,16 +2,19 @@ import { IWallpaper } from '../types/wallpaper'
 
 // 预加载配置
 interface IPreloadConfig {
-  // 预加载数量
   count: number;
-  // 预加载距离(px)
   distance: number;
-  // 预加载优先级
   priority: 'low' | 'normal' | 'high';
 }
 
+// 列表优化配置
+interface IListConfig {
+  pageSize: number;
+  bufferSize: number;
+  itemHeight: number;
+}
+
 export class PerformanceOptimizer {
-  // 默认预加载配置
   private static defaultPreloadConfig: IPreloadConfig = {
     count: 10,
     distance: 1000,
@@ -20,46 +23,56 @@ export class PerformanceOptimizer {
 
   // 预加载图片
   static preloadImages(images: string[], config = this.defaultPreloadConfig) {
-    const { count, priority } = config
-
-    // 限制预加载数量
+    const { count } = config
     const imagesToLoad = images.slice(0, count)
 
-    // 创建图片对象并加载
-    imagesToLoad.forEach(src => {
-      const image = new Image()
-      image.src = src
-    })
+    return Promise.all(
+      imagesToLoad.map(src => {
+        return new Promise<void>((resolve, reject) => {
+          const image = new Image()
+          image.onload = () => resolve()
+          image.onerror = reject
+          image.src = src
+        })
+      })
+    )
   }
 
   // 预加载下一页数据
-  static preloadNextPage(currentPage: number, getNextPage: () => Promise<any>) {
+  static preloadNextPage<T>(
+    currentPage: number,
+    getNextPage: () => Promise<T>
+  ): () => Promise<T | void> {
     let isLoading = false
-    let timer: number
+    let timeoutId: ReturnType<typeof setTimeout>
 
-    return () => {
+    return async () => {
       if (isLoading) return
 
-      // 防抖
-      if (timer) clearTimeout(timer)
-      timer = setTimeout(async () => {
-        isLoading = true
-        try {
-          await getNextPage()
-        } finally {
-          isLoading = false
-        }
-      }, 300)
+      if (timeoutId) clearTimeout(timeoutId)
+
+      return new Promise<T>((resolve, reject) => {
+        timeoutId = setTimeout(async () => {
+          isLoading = true
+          try {
+            const result = await getNextPage()
+            resolve(result)
+          } catch (error) {
+            reject(error)
+          } finally {
+            isLoading = false
+          }
+        }, 300)
+      })
     }
   }
 
   // 优化列表渲染
   static optimizeListRendering<T>(list: T[], pageSize = 20): T[][] {
-    const pages: T[][] = []
-    for (let i = 0; i < list.length; i += pageSize) {
-      pages.push(list.slice(i, i + pageSize))
-    }
-    return pages
+    return Array.from(
+      { length: Math.ceil(list.length / pageSize) },
+      (_, i) => list.slice(i * pageSize, (i + 1) * pageSize)
+    )
   }
 
   // 图片懒加载
@@ -67,7 +80,7 @@ export class PerformanceOptimizer {
     root: null,
     rootMargin: '50px',
     threshold: 0.1
-  }) {
+  }): IntersectionObserver {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -82,22 +95,20 @@ export class PerformanceOptimizer {
       })
     }, options)
 
-    // 观察所有图片
-    const images = document.querySelectorAll(selector)
+    const images = document.querySelectorAll<HTMLImageElement>(selector)
     images.forEach(img => observer.observe(img))
 
     return observer
   }
 
   // 缓存管理
-  static manageCacheSize(maxSize = 50 * 1024 * 1024) { // 默认50MB
+  static async manageCacheSize(maxSize = 50 * 1024 * 1024): Promise<void> {
     try {
-      const keys = wx.getStorageInfoSync().keys
+      const { keys } = wx.getStorageInfoSync()
       const keysToRemove: string[] = []
       let totalSize = 0
 
-      // 计算缓存大小
-      keys.forEach(key => {
+      for (const key of keys) {
         const value = wx.getStorageSync(key)
         const size = new Blob([JSON.stringify(value)]).size
         totalSize += size
@@ -105,35 +116,39 @@ export class PerformanceOptimizer {
         if (totalSize > maxSize) {
           keysToRemove.push(key)
         }
-      })
+      }
 
-      // 删除超出大小的缓存
-      keysToRemove.forEach(key => {
-        wx.removeStorageSync(key)
-      })
+      keysToRemove.forEach(key => wx.removeStorageSync(key))
     } catch (error) {
       console.error('缓存管理失败:', error)
     }
   }
 
   // 防抖函数
-  static debounce(func: Function, wait = 300) {
-    let timeout: number | null = null
-    
-    return function(...args: any[]) {
-      if (timeout) clearTimeout(timeout)
-      timeout = setTimeout(() => {
+  static debounce<T extends (...args: any[]) => any>(
+    func: T,
+    wait = 300
+  ): (...args: Parameters<T>) => void {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+    return function(this: ThisParameterType<T>, ...args: Parameters<T>) {
+      if (timeoutId) clearTimeout(timeoutId)
+      
+      timeoutId = setTimeout(() => {
         func.apply(this, args)
-        timeout = null
+        timeoutId = null
       }, wait)
     }
   }
 
   // 节流函数
-  static throttle(func: Function, limit = 300) {
+  static throttle<T extends (...args: any[]) => any>(
+    func: T,
+    limit = 300
+  ): (...args: Parameters<T>) => void {
     let inThrottle = false
-    
-    return function(...args: any[]) {
+
+    return function(this: ThisParameterType<T>, ...args: Parameters<T>) {
       if (!inThrottle) {
         func.apply(this, args)
         inThrottle = true
@@ -143,18 +158,21 @@ export class PerformanceOptimizer {
   }
 
   // 优化大列表性能
-  static optimizeLongList(list: any[], config = {
-    pageSize: 20,
-    bufferSize: 5,
-    itemHeight: 200
-  }) {
+  static optimizeLongList<T>(
+    list: T[],
+    config: IListConfig = {
+      pageSize: 20,
+      bufferSize: 5,
+      itemHeight: 200
+    }
+  ) {
     const { pageSize, bufferSize, itemHeight } = config
-    const totalHeight = list.length * itemHeight
     let startIndex = 0
-    let visibleCount = pageSize
+    let visibleCount = Math.ceil(
+      wx.getSystemInfoSync().windowHeight / itemHeight
+    )
 
     return {
-      // 获取可见项
       getVisibleItems(scrollTop: number) {
         startIndex = Math.floor(scrollTop / itemHeight)
         startIndex = Math.max(0, startIndex - bufferSize)
@@ -172,10 +190,11 @@ export class PerformanceOptimizer {
         }
       },
 
-      // 更新配置
-      updateConfig(newConfig: Partial<typeof config>) {
+      updateConfig(newConfig: Partial<IListConfig>) {
         Object.assign(config, newConfig)
-        visibleCount = Math.ceil(wx.getSystemInfoSync().windowHeight / itemHeight)
+        visibleCount = Math.ceil(
+          wx.getSystemInfoSync().windowHeight / itemHeight
+        )
       }
     }
   }

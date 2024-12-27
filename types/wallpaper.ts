@@ -1,64 +1,49 @@
-// 壁纸基础信息
+// 壁纸类型
 export interface IWallpaper {
   id: number;
   title: string;
+  description?: string;
   url: string;
   thumbnail: string;
   width: number;
   height: number;
+  size: number;
+  format: string;
   category_id: number;
+  tags: string[];
   views: number;
   downloads: number;
   likes: number;
-  tags?: string[];
   created_at: string;
-}
-
-// 壁纸分类
-export interface ICategory {
-  id: number;
-  name: string;
-  type: string;
-  icon: string;
-  order: number;
-  count?: number;
-}
-
-// 分页数据
-export interface IPageData<T> {
-  list: T[];
-  total: number;
-  page: number;
-  pageSize: number;
-  hasMore: boolean;
+  updated_at: string;
 }
 
 // 搜索参数
 export interface ISearchParams {
-  keyword: string;
-  page: number;
-  pageSize?: number;
-  sort?: 'latest' | 'popular' | 'downloads';
-  time?: 'all' | 'day' | 'week' | 'month';
-  ratio?: 'all' | '169' | '189' | '219';
+  keyword?: string;
+  category?: string;
   tags?: string[];
+  sort?: 'latest' | 'popular' | 'downloads' | 'likes';
+  page?: number;
+  pageSize?: number;
+}
+
+// 壁纸详情
+export interface IWallpaperDetail extends IWallpaper {
+  author?: {
+    id: number;
+    name: string;
+    avatar: string;
+  };
+  related?: IWallpaper[];
+  is_liked?: boolean;
+  is_collected?: boolean;
 }
 
 // 壁纸统计
 export interface IWallpaperStats {
-  views: number;
-  downloads: number;
-  likes: number;
-}
-
-// 用户收藏
-export interface IUserCollection {
-  wallpaper_id: number;
-  created_at: string;
-}
-
-// 下载记录
-export interface IDownloadRecord {
-  wallpaper_id: number;
-  downloaded_at: string;
+  total: number;
+  today: number;
+  week: number;
+  month: number;
 } 

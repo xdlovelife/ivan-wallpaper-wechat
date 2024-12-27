@@ -1,23 +1,57 @@
 .container {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #f8f8f8;
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 顶部状态栏 */
+.status-bar {
+  width: 100%;
+  background: #fff;
+}
+
+/* 导航栏 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  background: #fff;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 500;
+  color: #333;
 }
 
 /* 用户信息 */
 .user-info {
   display: flex;
   align-items: center;
-  padding: 40rpx 30rpx;
-  background: #000;
-  color: #fff;
+  padding: 30rpx;
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.avatar-wrapper {
+  padding: 0;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  margin-right: 30rpx;
+  background: none;
+}
+
+.avatar-wrapper::after {
+  border: none;
 }
 
 .avatar {
   width: 120rpx;
   height: 120rpx;
   border-radius: 60rpx;
-  margin-right: 30rpx;
 }
 
 .user-detail {
@@ -25,60 +59,82 @@
 }
 
 .nickname {
-  font-size: 36rpx;
+  font-size: 34rpx;
   font-weight: 500;
+  color: #333;
   margin-bottom: 12rpx;
+  background: none;
+  padding: 0;
+}
+
+.uid-box {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
 }
 
 .uid {
   font-size: 24rpx;
-  color: rgba(255,255,255,0.6);
-  display: flex;
-  align-items: center;
+  color: #999;
 }
 
-.copy {
-  color: #576b95;
-  margin-left: 12rpx;
+.copy-btn {
+  font-size: 24rpx;
+  color: #007AFF;
 }
 
-/* 统计数据 */
-.stats {
+/* 用户数据 */
+.user-data {
   display: flex;
   padding: 30rpx;
   background: #fff;
   margin-bottom: 20rpx;
 }
 
-.stat-item {
+.data-item {
   flex: 1;
   text-align: center;
 }
 
-.stat-value {
-  font-size: 36rpx;
-  color: #333;
+.data-value {
+  font-size: 40rpx;
   font-weight: 500;
+  color: #333;
   margin-bottom: 8rpx;
 }
 
-.stat-label {
+.data-label {
   font-size: 24rpx;
   color: #999;
 }
 
-/* 任务列表 */
-.task-list {
+/* 卡片样式 */
+.card {
   background: #fff;
   margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  padding: 24rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+/* 任务列表 */
+.task-list {
+  padding: 0 30rpx;
 }
 
 .task-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #f5f5f5;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
 }
 
 .task-item:last-child {
@@ -89,8 +145,6 @@
   display: flex;
   align-items: center;
   gap: 16rpx;
-  font-size: 28rpx;
-  color: #333;
 }
 
 .task-icon {
@@ -98,9 +152,35 @@
   height: 40rpx;
 }
 
+.task-info text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.task-action {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
 .task-reward {
   font-size: 24rpx;
-  color: #ff4d4f;
+  color: #ff6b6b;
+}
+
+.task-btn {
+  width: 120rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #fff;
+  background: #007AFF;
+  border-radius: 24rpx;
+}
+
+.task-btn.disabled {
+  background: #ccc;
 }
 
 .share-btn {
@@ -108,43 +188,45 @@
   background: #fff !important;
   font-weight: normal !important;
   border: none !important;
-  padding: 0 30rpx !important;
+  padding: 24rpx 0 !important;
   line-height: inherit !important;
   border-radius: 0 !important;
+  text-align: left !important;
 }
 
-/* 功能列表 */
-.menu-list {
-  background: #fff;
-  margin-bottom: 20rpx;
+/* 菜单列表 */
+.menu-group {
+  padding: 0 30rpx;
+}
+
+.menu-group:not(:last-child) {
+  border-bottom: 20rpx solid #f8f8f8;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #f5f5f5;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
 }
 
 .menu-item:last-child {
   border-bottom: none;
 }
 
-.menu-info {
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
+.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 16rpx;
+}
+
+.menu-label {
+  flex: 1;
   font-size: 28rpx;
   color: #333;
 }
 
-.menu-icon {
-  width: 40rpx;
-  height: 40rpx;
-}
-
-.arrow {
+.menu-arrow {
   width: 32rpx;
   height: 32rpx;
   opacity: 0.3;
@@ -155,7 +237,7 @@
   background: #fff !important;
   font-weight: normal !important;
   border: none !important;
-  padding: 0 30rpx !important;
+  padding: 30rpx 0 !important;
   line-height: inherit !important;
   border-radius: 0 !important;
   text-align: left !important;

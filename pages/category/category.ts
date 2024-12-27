@@ -1,133 +1,83 @@
 import { api } from '../../services/api'
+import { ICategory } from '../../types/category'
+import { ErrorHandler } from '../../utils/error'
 
-interface ICategory {
-  id: number;
-  name: string;
-  name_en: string;
-  cover_url: string | null;
-  icon_url: string | null;
-  type: 'device' | 'subject' | 'color';
-  description: string | null;
-  order: number;
-  count: number;
-}
-
-type GroupedCategories = {
-  device: ICategory[];
-  subject: ICategory[];
-  color: ICategory[];
-}
-
-interface IPageData {
-  categories: GroupedCategories;
-  loading: boolean;
-  refreshing: boolean;
-  error: string;
-  activeTab: keyof GroupedCategories;
-}
-
-Page<IPageData>({
+Page({
   data: {
-    categories: {
-      device: [],
-      subject: [],
-      color: []
-    },
+    // 分类列表
+    list: [] as ICategory[],
+    // 搜索关键词
+    keyword: '',
+    // 是否正在加载
     loading: false,
-    refreshing: false,
-    error: '',
-    activeTab: 'device'
+    // 是否正在刷新
+    isRefreshing: false
   },
 
   onLoad() {
-    this.loadCategories()
+    this.loadData()
   },
 
-  async loadCategories(useCache = true) {
+  // 加载分类数据
+  async loadData(refresh = false) {
     if (this.data.loading) return
-    
-    this.setData({ 
-      loading: true,
-      error: ''
-    })
+
+    this.setData({ loading: true })
 
     try {
-      const categories = await api.getCategories()
-      
-      // 缓存数据
-      wx.setStorage({
-        key: 'categories',
-        data: categories
+      const list = await api.getCategories({
+        keyword: this.data.keyword
       })
-      
-      this.setData({ categories })
-    } catch (error: any) {
-      console.error('加载分类失败:', error)
-      
-      // 尝试使用缓存
-      if (useCache) {
-        try {
-          const cache = wx.getStorageSync('categories')
-          if (cache) {
-            this.setData({ categories: cache })
-            return
-          }
-        } catch (e) {
-          console.error('读取缓存失败:', e)
-        }
-      }
-      
-      this.setData({ 
-        error: error.message || '加载失败，请稍后重试'
-      })
-      
-      wx.showToast({
-        title: '加载失败',
-        icon: 'none'
-      })
+
+      this.setData({ list })
+    } catch (error) {
+      ErrorHandler.showError('加载分类失败')
     } finally {
       this.setData({ 
         loading: false,
-        refreshing: false
+        isRefreshing: false
       })
     }
   },
 
-  onTabChange(e: WechatMiniprogram.TouchEvent) {
-    const { type } = e.currentTarget.dataset
-    if (!type || type === this.data.activeTab) return
-    
+  // 搜索输入
+  onSearchInput(e: WechatMiniprogram.Input) {
     this.setData({
-      activeTab: type
+      keyword: e.detail.value.trim()
     })
   },
 
+  // 搜索确认
+  onSearch() {
+    this.loadData(true)
+  },
+
+  // 点击分类
   onCategoryTap(e: WechatMiniprogram.TouchEvent) {
-    const { id, type, name } = e.currentTarget.dataset
-    if (!id || !type) return
-    
+    const id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: `/pages/wallpaper/list?categoryId=${id}&type=${type}&title=${name || '分类壁纸'}`
+      url: `/pages/wallpaper/list?category=${id}`
     })
   },
 
-  onPullDownRefresh() {
-    this.setData({ refreshing: true })
-    this.loadCategories(false).finally(() => {
-      wx.stopPullDownRefresh()
-    })
+  // 下拉刷新
+  onRefresh() {
+    this.setData({ isRefreshing: true })
+    this.loadData(true)
   },
 
+  // 分享
   onShareAppMessage() {
     return {
-      title: '发现精美壁纸，快来看看吧',
+      title: '壁纸分类',
       path: '/pages/category/category'
     }
   },
 
+  // 分享到朋友圈
   onShareTimeline() {
     return {
-      title: '发现精美壁纸'
+      title: '壁纸分类'
     }
   }
 }) 
